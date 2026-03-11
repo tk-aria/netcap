@@ -653,23 +653,23 @@ impl FanoutWriter {
 
 ### Step 1.7: Phase 1 テスト・ビルド検証
 
-- [ ] `crates/netcap-core/tests/` に単体テストを実装（error, capture, config, filter, storage 各モジュール）
-- [ ] テストカバレッジ90%以上を達成。未テスト部分を洗い出し追加テストを実装
-- [ ] `cargo build --workspace` が正常完了すること
-- [ ] `cargo test --workspace` が全テストパスすること
-- [ ] `cargo clippy --workspace -- -D warnings` で警告ゼロ
-- [ ] Dockerfile を作成し `docker build` が正常完了すること
-- [ ] **skip/TODO残留チェック:** 実装コード内に `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` が残っていないか `grep -rn` で検索し、残留があれば実装を完了させる
-- [ ] **Phase 1 機能検証チェックリスト:**
-  - [ ] `CaptureError`, `ProxyError`, `StorageError`, `CertError`, `FilterError` が正しく構築・表示されること
-  - [ ] `CapturedRequest`, `CapturedResponse`, `CapturedExchange` が正しくインスタンス化されること
-  - [ ] `truncate_body` / `decode_body` が各エンコーディングで正しく動作すること
-  - [ ] `ProxyConfig::default()` / TOML デシリアライズが正しく動作すること
-  - [ ] `DomainFilter` の exact/wildcard/regex マッチが正しく動作すること
-  - [ ] `FanoutWriter` が複数バックエンドに書き出しできること
-  - [ ] 上記を実際に `cargo test` で実行し、全テストがパスすることを確認
-  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
-  - [ ] 正常動作のエビデンスを `docs/evidence/phase1_report.md` にまとめる（テスト結果出力、カバレッジ、ビルドログ）
+- [x] `crates/netcap-core/tests/` に単体テストを実装（error, capture, config, filter, storage 各モジュール） <!-- 2026-03-12 07:45 JST -->
+- [x] テストカバレッジ90%以上を達成。未テスト部分を洗い出し追加テストを実装 <!-- 2026-03-12 07:45 JST -->
+- [x] `cargo build --workspace` が正常完了すること <!-- 2026-03-12 07:45 JST -->
+- [x] `cargo test --workspace` が全テストパスすること <!-- 2026-03-12 07:45 JST -->
+- [x] `cargo clippy --workspace -- -D warnings` で警告ゼロ <!-- 2026-03-12 07:45 JST -->
+- [x] Dockerfile を作成し `docker build` が正常完了すること <!-- 2026-03-12 07:45 JST -->
+- [x] **skip/TODO残留チェック:** 実装コード内に `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` が残っていないか `grep -rn` で検索し、残留があれば実装を完了させる <!-- 2026-03-12 07:45 JST -->
+- [x] **Phase 1 機能検証チェックリスト:** <!-- 2026-03-12 07:45 JST -->
+  - [x] `CaptureError`, `ProxyError`, `StorageError`, `CertError`, `FilterError` が正しく構築・表示されること <!-- 2026-03-12 07:45 JST -->
+  - [x] `CapturedRequest`, `CapturedResponse`, `CapturedExchange` が正しくインスタンス化されること <!-- 2026-03-12 07:45 JST -->
+  - [x] `truncate_body` / `decode_body` が各エンコーディングで正しく動作すること <!-- 2026-03-12 07:45 JST -->
+  - [x] `ProxyConfig::default()` / TOML デシリアライズが正しく動作すること <!-- 2026-03-12 07:45 JST -->
+  - [x] `DomainFilter` の exact/wildcard/regex マッチが正しく動作すること <!-- 2026-03-12 07:45 JST -->
+  - [x] `FanoutWriter` が複数バックエンドに書き出しできること <!-- 2026-03-12 07:45 JST -->
+  - [x] 上記を実際に `cargo test` で実行し、全テストがパスすることを確認 <!-- 2026-03-12 07:45 JST -->
+  - [x] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す <!-- 2026-03-12 07:45 JST -->
+  - [x] 正常動作のエビデンスを `docs/evidence/phase1_report.md` にまとめる（テスト結果出力、カバレッジ、ビルドログ） <!-- 2026-03-12 07:45 JST -->
 
 **Dockerfile サンプル:**
 ```dockerfile
