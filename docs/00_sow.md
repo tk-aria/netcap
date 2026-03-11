@@ -624,6 +624,110 @@ netcap/
 
 ---
 
+## 10. キャプチャログ取得方式
+
+netcap は利用形態に応じて **Push型（イベント駆動）** と **Pull型（API polling）** の2つのログ取得方式を提供する。
+
+### 10.1 方式一覧
+
+| 利用形態 | 方式 | ログ出力 | polling要否 |
+|----------|------|----------|-------------|
+| CLI (デスクトップ) | Push（自動） | stdoutリアルタイム出力 + ファイル/DB書き出し | 不要 |
+| ライブラリ組み込み | Push（callback） | `CaptureHandler` trait の `on_request` / `on_response` で受信 | 不要 |
+| Mobile FFI | Pull（polling） | `netcap_get_capture_events(handle, offset, limit)` で取得 | 必要 |
+
+### 10.2 Push型：イベント駆動（CLI / ライブラリ）
+
+HTTP通信が発生する度に自動でキャプチャされ、ログが出力される。明示的な polling は不要。
+
+```
+HTTP通信発生
+  → Proxy が intercept
+  → CaptureHandler.on_request() / on_response() コールバック自動発火
+  → Ring Buffer に push (lock-free, non-blocking)
+  → Storage Dispatcher がバッチ取り出し (100ms間隔 or 閾値到達)
+  → SQLite / JSONL / PCAP に並行書き出し
+  → 同時に stdout へリアルタイム出力 (F-33: 標準出力ログ)
+```
+
+**データフロー図:**
+
+```
+┌────────┐    ┌───────────┐    ┌────────────┐    ┌────────────┐
+│ Client │───>│  Proxy    │───>│ Capture    │───>│ Ring Buffer│
+│        │    │ (MITM)    │    │ Handler    │    │ (lock-free)│
+└────────┘    └───────────┘    └────────────┘    └─────┬──────┘
+                                                       │
+                                              100ms or threshold
+                                                       │
+                                                       v
+                                              ┌────────────────┐
+                                              │   Dispatcher   │
+                                              └───┬───┬───┬────┘
+                                                  │   │   │
+                                          ┌───────┘   │   └───────┐
+                                          v           v           v
+                                      ┌───────┐ ┌────────┐ ┌──────┐
+                                      │SQLite │ │ JSONL  │ │ PCAP │
+                                      │(WAL)  │ │(append)│ │      │
+                                      └───────┘ └────────┘ └──────┘
+                                          同時に stdout へリアルタイム出力
+```
+
+**ライブラリとして組み込む場合:**
+
+`CaptureHandler` trait を実装することで、任意のカスタム処理をコールバックとして登録できる。
+
+```rust
+#[async_trait]
+pub trait CaptureHandler: Send + Sync + 'static {
+    /// リクエスト受信時に自動で呼ばれる
+    async fn on_request(&self, request: &CapturedRequest) -> bool;
+    /// レスポンス受信時に自動で呼ばれる
+    async fn on_response(&self, exchange: &CapturedExchange);
+    /// エラー発生時に自動で呼ばれる
+    async fn on_error(&self, request_id: Uuid, error: &CaptureError);
+}
+```
+
+### 10.3 Pull型：API polling（Mobile FFI）
+
+モバイルアプリでは、Rust Core 内部は Push型でキャプチャ・記録を行うが、ネイティブアプリ (Kotlin/Swift) からの取得は FFI 経由の polling で行う。
+
+```
+Rust Core 内部: Push型で自動記録 (Ring Buffer → Storage)
+                    ↓
+ネイティブアプリ: FFI 関数を呼び出してイベントを取得
+  netcap_get_capture_events(handle, offset, limit)
+  → JSON形式でキャプチャイベント一覧を返却
+```
+
+**FFI関数（Pull用）:**
+
+| 関数名 | 説明 |
+|--------|------|
+| `netcap_get_capture_events(handle, offset, limit)` | キャプチャイベントをページネーション付きで取得 (JSON) |
+| `netcap_get_stats(handle)` | 総リクエスト数・レスポンス数・接続数等の統計情報を取得 |
+
+**Pull型を採用する理由（モバイル）:**
+
+- モバイルのUIスレッドにRustからの直接コールバックを行うと、スレッド安全性やABI互換性の問題が生じる
+- ネイティブUI (Jetpack Compose / SwiftUI) はリアクティブモデルであり、定期的なstate更新の方が自然
+- offset/limit によるページネーションで、UIのスクロール位置に応じた効率的なデータ取得が可能
+
+### 10.4 将来の拡張: Server-Sent Events / WebSocket
+
+将来的に、netcap を Web UI と連携させる場合は、Push型のイベント配信を HTTP ベースで提供することも検討可能。
+
+| 方式 | 用途 |
+|------|------|
+| SSE (Server-Sent Events) | Web UI へのリアルタイムイベントストリーム配信 |
+| WebSocket | 双方向通信（フィルタ変更 + イベント受信） |
+
+これらは Phase 2 以降の拡張として位置づける。
+
+---
+
 ## 付録A: 詳細設計ドキュメント参照
 
 | # | ドキュメント | ファイル |
