@@ -659,6 +659,17 @@ impl FanoutWriter {
 - [ ] `cargo test --workspace` が全テストパスすること
 - [ ] `cargo clippy --workspace -- -D warnings` で警告ゼロ
 - [ ] Dockerfile を作成し `docker build` が正常完了すること
+- [ ] **skip/TODO残留チェック:** 実装コード内に `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` が残っていないか `grep -rn` で検索し、残留があれば実装を完了させる
+- [ ] **Phase 1 機能検証チェックリスト:**
+  - [ ] `CaptureError`, `ProxyError`, `StorageError`, `CertError`, `FilterError` が正しく構築・表示されること
+  - [ ] `CapturedRequest`, `CapturedResponse`, `CapturedExchange` が正しくインスタンス化されること
+  - [ ] `truncate_body` / `decode_body` が各エンコーディングで正しく動作すること
+  - [ ] `ProxyConfig::default()` / TOML デシリアライズが正しく動作すること
+  - [ ] `DomainFilter` の exact/wildcard/regex マッチが正しく動作すること
+  - [ ] `FanoutWriter` が複数バックエンドに書き出しできること
+  - [ ] 上記を実際に `cargo test` で実行し、全テストがパスすることを確認
+  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [ ] 正常動作のエビデンスを `docs/evidence/phase1_report.md` にまとめる（テスト結果出力、カバレッジ、ビルドログ）
 
 **Dockerfile サンプル:**
 ```dockerfile
@@ -963,6 +974,16 @@ impl CertificateCache {
 - [ ] `cargo build --workspace` が正常完了すること
 - [ ] `cargo test --workspace` が全テストパスすること
 - [ ] `docker build` が正常完了し、コンテナが起動すること
+- [ ] **skip/TODO残留チェック:** `crates/netcap-core/src/tls/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を `grep -rn` で検索し、残留があれば実装を完了させる
+- [ ] **Phase 2 機能検証チェックリスト:**
+  - [ ] `RcgenCaProvider::generate_ca()` でCA証明書が生成されること
+  - [ ] CA証明書のファイル保存・再読み込みが正しく動作すること
+  - [ ] `issue_server_certificate()` でCA署名のサーバー証明書が生成されること
+  - [ ] 生成されたサーバー証明書のSANに指定ドメインが含まれること
+  - [ ] `CertificateCache` の TTL 付きキャッシュが正しく動作すること
+  - [ ] 上記を実際に `cargo test` で実行し、全テストがパスすることを確認
+  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [ ] 正常動作のエビデンスを `docs/evidence/phase2_report.md` にまとめる
 
 ---
 
@@ -1420,6 +1441,20 @@ impl StorageDispatcher {
 - [ ] `cargo build --workspace` が正常完了すること
 - [ ] `cargo test --workspace` が全テストパスすること
 - [ ] `docker build` が正常完了し、コンテナ内でプロキシが起動すること
+- [ ] **skip/TODO残留チェック:** `crates/netcap-core/src/proxy/` および `crates/netcap-core/src/storage/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
+- [ ] **Phase 3 機能検証チェックリスト:**
+  - [ ] `ProxyServerBuilder` で全フィールドを設定して `build()` が成功すること
+  - [ ] `ProxyServer::run()` でプロキシが指定ポートで起動すること
+  - [ ] HTTP リクエストがプロキシ経由で正しく転送されること
+  - [ ] `NetcapHandler` がリクエスト/レスポンスをキャプチャし `CapturedExchange` を生成すること
+  - [ ] ドメインフィルタと連携し include/exclude/default が正しく判定されること
+  - [ ] `ConnectionTracker` が接続を追跡・カウントすること
+  - [ ] `BufferSender` / `BufferReceiver` でイベントが送受信されること
+  - [ ] `StorageDispatcher` が複数バックエンドへ並行書き出しすること
+  - [ ] `shutdown()` で Graceful Shutdown が動作すること
+  - [ ] 上記を実際に `cargo test` + 手動プロキシ起動で確認
+  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [ ] 正常動作のエビデンスを `docs/evidence/phase3_report.md` にまとめる
 
 ---
 
@@ -1815,6 +1850,20 @@ pub fn build_pcap_packet(
 - [ ] `cargo build --workspace` が正常完了すること
 - [ ] `cargo test --workspace` が全テストパスすること
 - [ ] `docker build` が正常完了し、コンテナが起動すること
+- [ ] **skip/TODO残留チェック:** `crates/netcap-storage-sqlite/`, `crates/netcap-storage-jsonl/`, `crates/netcap-storage-pcap/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
+- [ ] **Phase 4 機能検証チェックリスト:**
+  - [ ] `SqliteStorage::new()` で DB ファイルが作成され、テーブル・インデックスが存在すること
+  - [ ] `SqliteStorage::write()` / `write_batch()` で CapturedExchange が正しく INSERT されること
+  - [ ] WAL モードが有効になっていること (`PRAGMA journal_mode`)
+  - [ ] `JsonlStorage::write()` で JSONL ファイルに1行追記されること
+  - [ ] 各行が有効な JSON としてパースできること
+  - [ ] `rotate_size` 超過でファイルローテーションが動作すること
+  - [ ] `PcapStorage::write()` で PCAP ファイルにパケットが追記されること
+  - [ ] 生成された PCAP ファイルが `pcap-file` crate で再読み込み可能なこと
+  - [ ] `FanoutWriter::write_all()` で3バックエンドに同時書き出しされること
+  - [ ] 上記を実際に `cargo test` で確認
+  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [ ] 正常動作のエビデンスを `docs/evidence/phase4_report.md` にまとめる
 
 ---
 
@@ -2164,6 +2213,24 @@ rotate_size = 104857600  # 100MB
 - [ ] `docker build` が正常完了すること
 - [ ] Docker コンテナ内で `netcap capture --help` が正常出力されること
 - [ ] Docker コンテナ内で `netcap capture` が起動し、HTTPリクエストがキャプチャされること
+- [ ] **skip/TODO残留チェック:** `crates/netcap-cli/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
+- [ ] **Phase 5 全機能検証チェックリスト (CLI コマンド):**
+  - [ ] `netcap --help` がヘルプメッセージを表示すること
+  - [ ] `netcap --version` がバージョンを表示すること
+  - [ ] `netcap capture --help` がキャプチャ用ヘルプを表示すること
+  - [ ] `netcap capture` がデフォルト設定 (127.0.0.1:8080) でプロキシ起動すること
+  - [ ] `netcap capture -l 0.0.0.0:9090` で指定アドレスで起動すること
+  - [ ] `netcap capture -i "*.example.com"` で include フィルタが適用されること
+  - [ ] `netcap capture -e "*.ads.com"` で exclude フィルタが適用されること
+  - [ ] `netcap capture -s sqlite -s jsonl` で複数ストレージに出力されること
+  - [ ] `netcap capture -c custom.toml` でTOML設定ファイルが読み込まれること
+  - [ ] `netcap cert generate -o ./ca.pem` でCA証明書が生成されること
+  - [ ] `netcap cert export -o ./exported.pem` でCA証明書がエクスポートされること
+  - [ ] Ctrl+C で Graceful Shutdown し、バッファがフラッシュされること
+  - [ ] キャプチャ中のHTTP通信がstdoutにリアルタイム出力されること
+  - [ ] 上記を実際に実行して動作確認
+  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [ ] 正常動作のエビデンスを `docs/evidence/phase5_report.md` にまとめる（コマンド実行ログ、出力結果のスクリーンショットまたはテキスト）
 
 ---
 
@@ -2359,6 +2426,24 @@ impl App {
 - [ ] `cargo build --release --workspace` が正常完了すること
 - [ ] `cargo test --workspace` が全テストパスすること
 - [ ] `docker build` が正常完了し、コンテナ内で `netcap capture` / `netcap-tui` が起動すること
+- [ ] **skip/TODO残留チェック:** `crates/netcap-storage-bigquery/`, `crates/netcap-tui/`, `crates/netcap-cli/src/commands/replay.rs` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
+- [ ] **Phase 6 全機能検証チェックリスト:**
+  - [ ] BigQuery ストレージ:
+    - [ ] `BigQueryStorage::new()` で初期化が成功すること (wiremock モック)
+    - [ ] `write_batch()` で Streaming Insert が送信されること (モック検証)
+    - [ ] リトライが最大3回実行されること (モック検証)
+    - [ ] 3回失敗後に JSONL フォールバックが動作すること
+  - [ ] TUI:
+    - [ ] `netcap-tui` が起動し、ターミナルUIが表示されること
+    - [ ] 上下キーでリクエスト一覧が選択できること
+    - [ ] Enter で詳細ビューに切り替わること
+    - [ ] `q` で終了すること
+  - [ ] replay コマンド:
+    - [ ] `netcap replay --from ./netcap.jsonl` でリクエストが再送されること
+    - [ ] `netcap replay --from ./netcap.db` で SQLite からリクエストが読み込まれること
+  - [ ] 上記を実際に実行して動作確認
+  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [ ] 正常動作のエビデンスを `docs/evidence/phase6_report.md` にまとめる
 
 ---
 
@@ -2615,6 +2700,313 @@ jobs:
 - [ ] `docker build` が正常完了すること
 - [ ] Android ビルド (`cargo ndk -t arm64-v8a build`) が正常完了すること (CI でのみ確認可)
 - [ ] GitHub Actions の全ワークフローが通ること
+- [ ] **skip/TODO残留チェック:** `crates/netcap-ffi/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
+- [ ] **Phase 7 全機能検証チェックリスト:**
+  - [ ] FFI:
+    - [ ] `NetcapProxy::new(config)` で FFI 経由でプロキシオブジェクトが生成されること
+    - [ ] `start()` → `stop()` のライフサイクルが正常動作すること
+    - [ ] `get_stats()` で統計情報が JSON で取得されること
+    - [ ] `get_capture_events(offset, limit)` でイベントが JSON で取得されること
+    - [ ] `get_ca_certificate_pem()` で PEM 文字列が返ること
+  - [ ] UniFFI バインディング:
+    - [ ] `scripts/generate-bindings.sh` で Kotlin/Swift バインディングが生成されること
+    - [ ] 生成されたバインディングにコンパイルエラーがないこと
+  - [ ] Android ビルド:
+    - [ ] `scripts/build-android.sh` で arm64-v8a 向け .so が生成されること
+  - [ ] CI/CD:
+    - [ ] `.github/workflows/ci.yml` が push / PR で実行されること
+    - [ ] `.github/workflows/release.yml` がタグ push でリリースビルドされること
+  - [ ] 上記を実際に実行して動作確認
+  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [ ] 正常動作のエビデンスを `docs/evidence/phase7_report.md` にまとめる
+
+---
+
+## Phase 8: install/uninstall スクリプト & 最終検証
+
+**目的:** kalidokit-rust の setup.sh を参考にした install/uninstall スクリプト作成と、全機能の最終動作検証
+
+### Step 8.1: install/uninstall スクリプト作成
+
+- [ ] `scripts/setup.sh` を作成（[kalidokit-rust/scripts/setup.sh](https://github.com/tk-aria/kalidokit-rust/blob/main/scripts/setup.sh) を参考）
+- [ ] 以下の機能を実装:
+  - `install`: GitHub Releases からバイナリをダウンロードしてインストール
+  - `uninstall`: バイナリと関連ファイルを削除
+  - `version`: インストール済みバージョンを表示
+- [ ] OS/アーキテクチャ自動検出 (Linux/macOS/Windows, x86_64/aarch64)
+- [ ] インストール先のカスタマイズ (`NETCAP_INSTALL_PATH` 環境変数)
+- [ ] パーミッション不足時の `~/.local/bin` フォールバック
+- [ ] curl パイプインストール対応 (`curl -fsSL https://.../ | sh -s -- install`)
+
+**対象ファイル:** `scripts/setup.sh`
+
+**サンプルコード:**
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO="tk-aria/netcap"
+BINARY_NAME="netcap"
+INSTALL_DIR="${NETCAP_INSTALL_PATH:-/usr/local/bin}"
+VERSION="${NETCAP_VERSION:-latest}"
+
+# --- OS/Arch 検出 ---
+detect_os() {
+    case "$(uname -s)" in
+        Linux*)   echo "linux" ;;
+        Darwin*)  echo "darwin" ;;
+        MINGW*|MSYS*|CYGWIN*) echo "windows" ;;
+        *)        echo "unknown" ;;
+    esac
+}
+
+detect_arch() {
+    case "$(uname -m)" in
+        x86_64|amd64) echo "x86_64" ;;
+        aarch64|arm64) echo "aarch64" ;;
+        *)             echo "unknown" ;;
+    esac
+}
+
+# --- バージョン取得 ---
+get_latest_version() {
+    curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
+        | grep '"tag_name"' | sed -E 's/.*"v?([^"]+)".*/\1/'
+}
+
+# --- インストール ---
+cmd_install() {
+    local os=$(detect_os)
+    local arch=$(detect_arch)
+    local version="${VERSION}"
+
+    if [ "${version}" = "latest" ]; then
+        version=$(get_latest_version)
+    fi
+
+    echo "Installing ${BINARY_NAME} v${version} (${os}/${arch})..."
+
+    local filename="${BINARY_NAME}-v${version}-${arch}-${os}"
+    [ "${os}" = "windows" ] && filename="${filename}.exe"
+    local url="https://github.com/${REPO}/releases/download/v${version}/${filename}.tar.gz"
+
+    local tmp=$(mktemp -d)
+    trap "rm -rf ${tmp}" EXIT
+
+    curl -fsSL "${url}" -o "${tmp}/archive.tar.gz"
+    tar xzf "${tmp}/archive.tar.gz" -C "${tmp}"
+
+    if install -m 755 "${tmp}/${BINARY_NAME}" "${INSTALL_DIR}/${BINARY_NAME}" 2>/dev/null; then
+        echo "Installed to ${INSTALL_DIR}/${BINARY_NAME}"
+    else
+        local fallback="${HOME}/.local/bin"
+        mkdir -p "${fallback}"
+        install -m 755 "${tmp}/${BINARY_NAME}" "${fallback}/${BINARY_NAME}"
+        echo "Installed to ${fallback}/${BINARY_NAME}"
+        echo "Add ${fallback} to your PATH if needed."
+    fi
+
+    echo "${BINARY_NAME} v${version} installed successfully."
+}
+
+# --- アンインストール ---
+cmd_uninstall() {
+    local targets=(
+        "${INSTALL_DIR}/${BINARY_NAME}"
+        "${HOME}/.local/bin/${BINARY_NAME}"
+    )
+    for path in "${targets[@]}"; do
+        if [ -f "${path}" ]; then
+            rm -f "${path}"
+            echo "Removed: ${path}"
+        fi
+    done
+    echo "${BINARY_NAME} uninstalled."
+}
+
+# --- バージョン表示 ---
+cmd_version() {
+    if command -v "${BINARY_NAME}" &>/dev/null; then
+        ${BINARY_NAME} --version
+    else
+        echo "${BINARY_NAME} is not installed."
+    fi
+}
+
+# --- メイン ---
+case "${1:-install}" in
+    install)   cmd_install ;;
+    uninstall) cmd_uninstall ;;
+    version)   cmd_version ;;
+    *)
+        echo "Usage: $0 {install|uninstall|version}"
+        exit 1
+        ;;
+esac
+```
+
+**テストケース:**
+- 正常系: `./scripts/setup.sh install` でバイナリがインストールされること
+- 正常系: `./scripts/setup.sh version` でバージョンが表示されること
+- 正常系: `./scripts/setup.sh uninstall` でバイナリが削除されること
+- 正常系: `NETCAP_INSTALL_PATH=/tmp/test` で指定先にインストールされること
+- 異常系: 存在しないバージョンを指定するとエラーメッセージが表示されること
+
+---
+
+### Step 8.2: 最終 skip/TODO 全体スキャン
+
+- [ ] ワークスペース全体で以下のパターンを `grep -rn` で検索し、**残留ゼロ**にする:
+  ```bash
+  grep -rn 'todo!()' crates/
+  grep -rn 'unimplemented!()' crates/
+  grep -rn '// TODO' crates/
+  grep -rn '// FIXME' crates/
+  grep -rn '// HACK' crates/
+  grep -rn '#\[ignore\]' crates/
+  grep -rn 'skip' crates/ --include='*.rs' | grep -i 'test'
+  ```
+- [ ] 残留が見つかった場合は実装を完了させ、`todo!()` / `unimplemented!()` を除去する
+- [ ] `#[ignore]` 付きテストは理由を確認し、可能なら `#[ignore]` を外して実行可能にする
+
+---
+
+### Step 8.3: 全機能 最終動作検証チェックリスト
+
+以下の全項目を実際に実行し、動作確認を行う。エラーが検出された場合はエラーが出なくなるまで修正を繰り返す。
+
+#### CLI コマンド
+- [ ] `netcap --help`
+- [ ] `netcap --version`
+- [ ] `netcap capture --help`
+- [ ] `netcap capture` (デフォルト起動 → Ctrl+C で停止)
+- [ ] `netcap capture -l 127.0.0.1:9090 -i "*.example.com" -s sqlite -s jsonl -o /tmp/test`
+- [ ] `netcap capture -e "*.ads.com,*.tracking.com"`
+- [ ] `netcap capture -c config/netcap.example.toml`
+- [ ] `netcap cert generate -o /tmp/ca.pem`
+- [ ] `netcap cert export -o /tmp/ca_export.pem`
+- [ ] `netcap replay --from /tmp/test/netcap.jsonl` (Phase 6 以降)
+- [ ] `netcap-tui` (Phase 6 以降)
+
+#### HTTP プロキシ動作
+- [ ] プロキシ起動後、`curl -x http://127.0.0.1:8080 http://example.com` でHTTPキャプチャされること
+- [ ] `curl -x http://127.0.0.1:8080 --proxy-cacert ca.pem https://example.com` でHTTPSキャプチャされること
+- [ ] include フィルタで指定ドメインのみキャプチャされること
+- [ ] exclude フィルタで除外ドメインがパススルーされること
+- [ ] stdout にリアルタイムでキャプチャログが表示されること
+
+#### ストレージ出力
+- [ ] SQLite: `netcap.db` が生成され、`sqlite3 netcap.db "SELECT count(*) FROM http_requests"` でレコード数が確認できること
+- [ ] JSONL: `netcap.jsonl` が生成され、各行が有効な JSON であること (`cat netcap.jsonl | jq . > /dev/null`)
+- [ ] PCAP: `netcap.pcap` が生成され、ファイルサイズが0でないこと
+
+#### ビルド・Docker
+- [ ] `cargo build --release --workspace` 成功
+- [ ] `cargo test --workspace` 全パス
+- [ ] `cargo clippy --workspace -- -D warnings` 警告ゼロ
+- [ ] `docker build -t netcap .` 成功
+- [ ] `docker run --rm netcap --help` が正常出力
+
+#### install/uninstall スクリプト
+- [ ] `./scripts/setup.sh install` 成功
+- [ ] `netcap --version` でバージョン表示
+- [ ] `./scripts/setup.sh uninstall` でバイナリ削除
+
+---
+
+### Step 8.4: 最終エビデンスレポート作成
+
+- [ ] `docs/evidence/final_report.md` に以下を記載:
+  - 全 CLI コマンドの実行結果（コマンドと出力をコードブロックで記載）
+  - HTTP プロキシ動作のキャプチャログサンプル
+  - 各ストレージの出力サンプル（SQLite レコード数、JSONL 先頭3行、PCAP ファイルサイズ）
+  - `cargo test` の全テスト結果
+  - `cargo tarpaulin` のカバレッジ数値
+  - `docker build` / `docker run` のログ
+  - skip/TODO スキャン結果（残留ゼロの証跡）
+  - install/uninstall スクリプトの動作ログ
+- [ ] レポートの形式: Markdown、各セクションにコマンド実行ログをコードブロックで記載
+
+**レポートテンプレート:**
+```markdown
+# netcap 最終動作検証レポート
+
+> 検証日: YYYY-MM-DD
+> バージョン: 0.1.0
+> 検証者: (name)
+
+## 1. skip/TODO スキャン結果
+
+\`\`\`bash
+$ grep -rn 'todo!()' crates/
+(出力なし = 残留ゼロ)
+
+$ grep -rn 'unimplemented!()' crates/
+(出力なし = 残留ゼロ)
+\`\`\`
+
+## 2. ビルド検証
+
+\`\`\`bash
+$ cargo build --release --workspace
+   Compiling netcap-core v0.1.0
+   ...
+   Finished release [optimized] target(s) in XXs
+\`\`\`
+
+## 3. テスト結果
+
+\`\`\`bash
+$ cargo test --workspace
+   running XX tests
+   test result: ok. XX passed; 0 failed; 0 ignored
+\`\`\`
+
+## 4. カバレッジ
+
+\`\`\`bash
+$ cargo tarpaulin --workspace
+   XX.X% coverage, XX/XX lines covered
+\`\`\`
+
+## 5. CLI コマンド動作確認
+
+### netcap --help
+\`\`\`
+$ netcap --help
+(出力)
+\`\`\`
+
+### netcap capture
+\`\`\`
+$ netcap capture -l 127.0.0.1:8080
+Proxy listening on 127.0.0.1:8080
+GET example.com/ → 200 (12.3ms)
+...
+^C Shutting down...
+\`\`\`
+
+(以下各コマンド同様)
+
+## 6. ストレージ出力確認
+
+## 7. Docker 検証
+
+## 8. install/uninstall スクリプト
+
+## 結果サマリ
+
+| 項目 | 結果 |
+|------|------|
+| ビルド | PASS |
+| テスト | PASS (XX/XX) |
+| カバレッジ | XX.X% (>90%) |
+| CLI コマンド | 全コマンド PASS |
+| ストレージ | SQLite/JSONL/PCAP PASS |
+| Docker | PASS |
+| skip/TODO残留 | 0件 |
+| install/uninstall | PASS |
+```
 
 ---
 
