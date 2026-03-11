@@ -699,8 +699,8 @@ cargo tarpaulin --workspace --out Html --output-dir coverage/
 
 ### Step 2.1: CertificateProvider trait 定義
 
-- [ ] `crates/netcap-core/src/tls/mod.rs` に `CertificateProvider` trait を定義
-- [ ] `CaCertificate`, `ServerCertificate` 構造体を定義
+- [x] `crates/netcap-core/src/tls/mod.rs` に `CertificateProvider` trait を定義 <!-- 2026-03-12 07:50 JST -->
+- [x] `CaCertificate`, `ServerCertificate` 構造体を定義 <!-- 2026-03-12 07:50 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/tls/mod.rs`
 
@@ -738,10 +738,10 @@ pub trait CertificateProvider: Send + Sync + 'static {
 
 ### Step 2.2: CA証明書生成・管理
 
-- [ ] `crates/netcap-core/src/tls/ca.rs` に `RcgenCaProvider` を実装
-- [ ] rcgen を使用して自己署名CA証明書を生成
-- [ ] CA証明書の PEM 形式エクスポートを実装
-- [ ] CA証明書のファイルへの保存・読み込みを実装
+- [x] `crates/netcap-core/src/tls/ca.rs` に `RcgenCaProvider` を実装 <!-- 2026-03-12 07:50 JST -->
+- [x] rcgen を使用して自己署名CA証明書を生成 <!-- 2026-03-12 07:50 JST -->
+- [x] CA証明書の PEM 形式エクスポートを実装 <!-- 2026-03-12 07:50 JST -->
+- [x] CA証明書のファイルへの保存・読み込みを実装 <!-- 2026-03-12 07:50 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/tls/ca.rs`
 
@@ -824,9 +824,9 @@ impl RcgenCaProvider {
 
 ### Step 2.3: 動的サーバー証明書発行
 
-- [ ] `crates/netcap-core/src/tls/server_cert.rs` に CA 署名によるサーバー証明書の動的生成を実装
-- [ ] SAN (Subject Alternative Name) にドメインを設定
-- [ ] 有効期限の設定を実装
+- [x] `crates/netcap-core/src/tls/server_cert.rs` に CA 署名によるサーバー証明書の動的生成を実装 <!-- 2026-03-12 07:50 JST -->
+- [x] SAN (Subject Alternative Name) にドメインを設定 <!-- 2026-03-12 07:50 JST -->
+- [x] 有効期限の設定を実装 <!-- 2026-03-12 07:50 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/tls/server_cert.rs`
 
@@ -895,9 +895,9 @@ pub fn issue_server_certificate(
 
 ### Step 2.4: 証明書キャッシュ (TTL付き)
 
-- [ ] `crates/netcap-core/src/tls/store.rs` に証明書キャッシュを実装
-- [ ] TTL ベースの期限切れ管理
-- [ ] `DashMap` または `RwLock<HashMap>` による並行安全なキャッシュ
+- [x] `crates/netcap-core/src/tls/store.rs` に証明書キャッシュを実装 <!-- 2026-03-12 07:50 JST -->
+- [x] TTL ベースの期限切れ管理 <!-- 2026-03-12 07:50 JST -->
+- [x] `DashMap` または `RwLock<HashMap>` による並行安全なキャッシュ <!-- 2026-03-12 07:50 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/tls/store.rs`
 
@@ -969,21 +969,21 @@ impl CertificateCache {
 
 ### Step 2.5: Phase 2 テスト・ビルド検証
 
-- [ ] tls モジュール全体の単体テスト実装 (ca, server_cert, store)
-- [ ] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装
-- [ ] `cargo build --workspace` が正常完了すること
-- [ ] `cargo test --workspace` が全テストパスすること
-- [ ] `docker build` が正常完了し、コンテナが起動すること
-- [ ] **skip/TODO残留チェック:** `crates/netcap-core/src/tls/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を `grep -rn` で検索し、残留があれば実装を完了させる
-- [ ] **Phase 2 機能検証チェックリスト:**
-  - [ ] `RcgenCaProvider::generate_ca()` でCA証明書が生成されること
-  - [ ] CA証明書のファイル保存・再読み込みが正しく動作すること
-  - [ ] `issue_server_certificate()` でCA署名のサーバー証明書が生成されること
-  - [ ] 生成されたサーバー証明書のSANに指定ドメインが含まれること
-  - [ ] `CertificateCache` の TTL 付きキャッシュが正しく動作すること
-  - [ ] 上記を実際に `cargo test` で実行し、全テストがパスすることを確認
-  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
-  - [ ] 正常動作のエビデンスを `docs/evidence/phase2_report.md` にまとめる
+- [x] tls モジュール全体の単体テスト実装 (ca, server_cert, store) <!-- 2026-03-12 07:50 JST -->
+- [x] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装 <!-- 2026-03-12 07:50 JST -->
+- [x] `cargo build --workspace` が正常完了すること <!-- 2026-03-12 07:50 JST -->
+- [x] `cargo test --workspace` が全テストパスすること <!-- 2026-03-12 07:50 JST -->
+- [x] `docker build` が正常完了し、コンテナが起動すること <!-- 2026-03-12 07:50 JST -->
+- [x] **skip/TODO残留チェック:** `crates/netcap-core/src/tls/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を `grep -rn` で検索し、残留があれば実装を完了させる <!-- 2026-03-12 07:50 JST -->
+- [x] **Phase 2 機能検証チェックリスト:** <!-- 2026-03-12 07:50 JST -->
+  - [x] `RcgenCaProvider::generate_ca()` でCA証明書が生成されること <!-- 2026-03-12 07:50 JST -->
+  - [x] CA証明書のファイル保存・再読み込みが正しく動作すること <!-- 2026-03-12 07:50 JST -->
+  - [x] `issue_server_certificate()` でCA署名のサーバー証明書が生成されること <!-- 2026-03-12 07:50 JST -->
+  - [x] 生成されたサーバー証明書のSANに指定ドメインが含まれること <!-- 2026-03-12 07:50 JST -->
+  - [x] `CertificateCache` の TTL 付きキャッシュが正しく動作すること <!-- 2026-03-12 07:50 JST -->
+  - [x] 上記を実際に `cargo test` で実行し、全テストがパスすることを確認 <!-- 2026-03-12 07:50 JST -->
+  - [x] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す <!-- 2026-03-12 07:50 JST -->
+  - [x] 正常動作のエビデンスを `docs/evidence/phase2_report.md` にまとめる <!-- 2026-03-12 07:50 JST -->
 
 ---
 

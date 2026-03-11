@@ -12,6 +12,7 @@ pub struct CaCertificate {
     pub fingerprint_sha256: String,
 }
 
+#[derive(Debug, Clone)]
 pub struct ServerCertificate {
     pub cert_der: Vec<u8>,
     pub key_der: Vec<u8>,
