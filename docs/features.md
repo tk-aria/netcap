@@ -113,10 +113,10 @@ targets = [
 
 ### Step 1.2: エラー型定義 (netcap-core)
 
-- [ ] `crates/netcap-core/src/error.rs` にエラー型階層を定義
-- [ ] `CaptureError`, `ProxyError`, `StorageError`, `CertError`, `FilterError` を定義
-- [ ] 各エラーに `thiserror` の `#[error]` アトリビュートを付与
-- [ ] `From` トレイト変換を実装
+- [x] `crates/netcap-core/src/error.rs` にエラー型階層を定義 (2026-03-11)
+- [x] `CaptureError`, `ProxyError`, `StorageError`, `CertError`, `FilterError` を定義 (2026-03-11)
+- [x] 各エラーに `thiserror` の `#[error]` アトリビュートを付与 (2026-03-11)
+- [x] `From` トレイト変換を実装 (2026-03-11)
 
 **対象ファイル:** `crates/netcap-core/src/error.rs`
 
@@ -210,9 +210,9 @@ pub enum FilterError {
 
 ### Step 1.3: コアデータ型定義 (capture モジュール)
 
-- [ ] `crates/netcap-core/src/capture/mod.rs` に `CaptureHandler` trait を定義
-- [ ] `crates/netcap-core/src/capture/exchange.rs` に `CapturedRequest`, `CapturedResponse`, `CapturedExchange`, `TlsInfo` 構造体を定義
-- [ ] `crates/netcap-core/src/capture/body.rs` にボディ処理ユーティリティ（圧縮解凍、サイズ制限）を実装
+- [x] `crates/netcap-core/src/capture/mod.rs` に `CaptureHandler` trait を定義 (2026-03-11)
+- [x] `crates/netcap-core/src/capture/exchange.rs` に `CapturedRequest`, `CapturedResponse`, `CapturedExchange`, `TlsInfo` 構造体を定義 (2026-03-11)
+- [x] `crates/netcap-core/src/capture/body.rs` にボディ処理ユーティリティ（圧縮解凍、サイズ制限）を実装 (2026-03-11)
 
 **対象ファイル:**
 ```
@@ -330,9 +330,9 @@ pub fn decode_body(body: &[u8], encoding: &str) -> Result<Vec<u8>, std::io::Erro
 
 ### Step 1.4: 設定型定義 (config モジュール)
 
-- [ ] `crates/netcap-core/src/config.rs` にプロキシ設定・セッション設定を定義
-- [ ] TOML デシリアライズに対応 (`serde::Deserialize`)
-- [ ] デフォルト値を `Default` trait で提供
+- [x] `crates/netcap-core/src/config.rs` にプロキシ設定・セッション設定を定義 (2026-03-11)
+- [x] TOML デシリアライズに対応 (`serde::Deserialize`) (2026-03-11)
+- [x] デフォルト値を `Default` trait で提供 (2026-03-11)
 
 **対象ファイル:** `crates/netcap-core/src/config.rs`
 
@@ -425,9 +425,9 @@ pub enum DefaultAction {
 
 ### Step 1.5: ドメインフィルタ実装 (filter モジュール)
 
-- [ ] `crates/netcap-core/src/filter/mod.rs` に `DomainMatcher` trait と `DomainFilter` を実装
-- [ ] `crates/netcap-core/src/filter/pattern.rs` に `DomainPattern` (exact/wildcard/regex) を実装
-- [ ] フィルタの優先度制御、`CaptureDecision` enum を定義
+- [x] `crates/netcap-core/src/filter/mod.rs` に `DomainMatcher` trait と `DomainFilter` を実装 (2026-03-11)
+- [x] `crates/netcap-core/src/filter/pattern.rs` に `DomainPattern` (exact/wildcard/regex) を実装 (2026-03-11)
+- [x] フィルタの優先度制御、`CaptureDecision` enum を定義 (2026-03-11)
 
 **対象ファイル:**
 ```
@@ -585,8 +585,8 @@ impl DomainMatcher for DomainFilter {
 
 ### Step 1.6: lib.rs クレートルートと mod 宣言
 
-- [ ] `crates/netcap-core/src/lib.rs` に pub mod 宣言と re-export を記述
-- [ ] `crates/netcap-core/src/storage/mod.rs` に `StorageBackend` trait と `CaptureHandler` trait を定義（実装は別クレート）
+- [x] `crates/netcap-core/src/lib.rs` に pub mod 宣言と re-export を記述 (2026-03-11)
+- [x] `crates/netcap-core/src/storage/mod.rs` に `StorageBackend` trait と `CaptureHandler` trait を定義（実装は別クレート） (2026-03-11)
 
 **対象ファイル:**
 ```
