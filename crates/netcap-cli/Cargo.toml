@@ -1,0 +1,22 @@
+[package]
+name = "netcap-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "netcap"
+path = "src/main.rs"
+
+[dependencies]
+netcap-core = { path = "../netcap-core" }
+netcap-storage-sqlite = { path = "../netcap-storage-sqlite" }
+netcap-storage-jsonl = { path = "../netcap-storage-jsonl" }
+netcap-storage-pcap = { path = "../netcap-storage-pcap" }
+clap = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }

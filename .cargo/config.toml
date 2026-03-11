@@ -1,0 +1,6 @@
+# Build configuration for the workspace
+# Required environment variables for this build environment:
+# PATH must include /tmp/gcc-root/bin and /tmp/gcc-root/usr/bin
+# LIBRARY_PATH must include /tmp/gcc-root/usr/lib/x86_64-linux-gnu
+# C_INCLUDE_PATH must include /tmp/gcc-root/usr/include
+# LD_LIBRARY_PATH must include /tmp/gcc-root/usr/lib/x86_64-linux-gnu

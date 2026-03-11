@@ -22,10 +22,10 @@
 
 ### Step 1.1: ワークスペース初期化
 
-- [ ] ルート `Cargo.toml` にワークスペース定義と共通依存を記述
-- [ ] `rust-toolchain.toml` を作成
-- [ ] `.gitignore` を更新（target/, *.pem, *.db 等）
-- [ ] 8クレートのディレクトリとスケルトン `Cargo.toml` を作成
+- [x] ルート `Cargo.toml` にワークスペース定義と共通依存を記述 (2026-03-11)
+- [x] `rust-toolchain.toml` を作成 (2026-03-11)
+- [x] `.gitignore` を更新（target/, *.pem, *.db 等） (2026-03-11)
+- [x] 8クレートのディレクトリとスケルトン `Cargo.toml` を作成 (2026-03-11)
 
 **対象ファイル:**
 ```

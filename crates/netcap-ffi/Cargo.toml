@@ -1,0 +1,15 @@
+[package]
+name = "netcap-ffi"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+netcap-core = { path = "../netcap-core" }
+uniffi = { workspace = true }
+tokio = { workspace = true }
+
+[dev-dependencies]
+tokio-test = { workspace = true }
