@@ -39,8 +39,26 @@ ios/*.xcworkspace/xcuserdata/
 ios/*.xcodeproj/xcuserdata/
 *.ipa
 
+# Database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Capture output
+*.jsonl
+*.pcap
+*.pcapng
+
+# Coverage
+coverage/
+tarpaulin-report.html
+
 # Credentials
 *.pem
 *.key
 credentials.json
 service-account.json
+
+# Node
+node_modules/
