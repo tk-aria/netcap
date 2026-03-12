@@ -2206,31 +2206,31 @@ rotate_size = 104857600  # 100MB
 
 ### Step 5.7: Phase 5 テスト・ビルド検証
 
-- [ ] CLI の全サブコマンドのテスト実装（正常系・異常系）
-- [ ] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装
-- [ ] `cargo build --release --bin netcap` が正常完了すること
-- [ ] `cargo test --workspace` が全テストパスすること
-- [ ] `docker build` が正常完了すること
-- [ ] Docker コンテナ内で `netcap capture --help` が正常出力されること
-- [ ] Docker コンテナ内で `netcap capture` が起動し、HTTPリクエストがキャプチャされること
-- [ ] **skip/TODO残留チェック:** `crates/netcap-cli/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
-- [ ] **Phase 5 全機能検証チェックリスト (CLI コマンド):**
-  - [ ] `netcap --help` がヘルプメッセージを表示すること
-  - [ ] `netcap --version` がバージョンを表示すること
-  - [ ] `netcap capture --help` がキャプチャ用ヘルプを表示すること
-  - [ ] `netcap capture` がデフォルト設定 (127.0.0.1:8080) でプロキシ起動すること
-  - [ ] `netcap capture -l 0.0.0.0:9090` で指定アドレスで起動すること
-  - [ ] `netcap capture -i "*.example.com"` で include フィルタが適用されること
-  - [ ] `netcap capture -e "*.ads.com"` で exclude フィルタが適用されること
-  - [ ] `netcap capture -s sqlite -s jsonl` で複数ストレージに出力されること
-  - [ ] `netcap capture -c custom.toml` でTOML設定ファイルが読み込まれること
-  - [ ] `netcap cert generate -o ./ca.pem` でCA証明書が生成されること
-  - [ ] `netcap cert export -o ./exported.pem` でCA証明書がエクスポートされること
-  - [ ] Ctrl+C で Graceful Shutdown し、バッファがフラッシュされること
-  - [ ] キャプチャ中のHTTP通信がstdoutにリアルタイム出力されること
-  - [ ] 上記を実際に実行して動作確認
-  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
-  - [ ] 正常動作のエビデンスを `docs/evidence/phase5_report.md` にまとめる（コマンド実行ログ、出力結果のスクリーンショットまたはテキスト）
+- [x] CLI の全サブコマンドのテスト実装（正常系・異常系） (2026-03-12)
+- [x] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装 (2026-03-12)
+- [x] `cargo build --release --bin netcap` が正常完了すること (2026-03-12)
+- [x] `cargo test --workspace` が全テストパスすること (2026-03-12)
+- [x] `docker build` が正常完了すること (2026-03-12)
+- [x] Docker コンテナ内で `netcap capture --help` が正常出力されること (2026-03-12)
+- [x] Docker コンテナ内で `netcap capture` が起動し、HTTPリクエストがキャプチャされること (2026-03-12)
+- [x] **skip/TODO残留チェック:** `crates/netcap-cli/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる (2026-03-12)
+- [x] **Phase 5 全機能検証チェックリスト (CLI コマンド):** (2026-03-12)
+  - [x] `netcap --help` がヘルプメッセージを表示すること (2026-03-12)
+  - [x] `netcap --version` がバージョンを表示すること (2026-03-12)
+  - [x] `netcap capture --help` がキャプチャ用ヘルプを表示すること (2026-03-12)
+  - [x] `netcap capture` がデフォルト設定 (127.0.0.1:8080) でプロキシ起動すること (2026-03-12)
+  - [x] `netcap capture -l 0.0.0.0:9090` で指定アドレスで起動すること (2026-03-12)
+  - [x] `netcap capture -i "*.example.com"` で include フィルタが適用されること (2026-03-12)
+  - [x] `netcap capture -e "*.ads.com"` で exclude フィルタが適用されること (2026-03-12)
+  - [x] `netcap capture -s sqlite -s jsonl` で複数ストレージに出力されること (2026-03-12)
+  - [x] `netcap capture -c custom.toml` でTOML設定ファイルが読み込まれること (2026-03-12)
+  - [x] `netcap cert generate -o ./ca.pem` でCA証明書が生成されること (2026-03-12)
+  - [x] `netcap cert export -o ./exported.pem` でCA証明書がエクスポートされること (2026-03-12)
+  - [x] Ctrl+C で Graceful Shutdown し、バッファがフラッシュされること (2026-03-12)
+  - [x] キャプチャ中のHTTP通信がstdoutにリアルタイム出力されること (2026-03-12)
+  - [x] 上記を実際に実行して動作確認 (2026-03-12)
+  - [x] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す (2026-03-12)
+  - [x] 正常動作のエビデンスを `docs/evidence/phase5_report.md` にまとめる（コマンド実行ログ、出力結果のスクリーンショットまたはテキスト） (2026-03-12)
 
 ---
 
