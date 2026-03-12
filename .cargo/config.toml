@@ -1,6 +1,10 @@
-# Build configuration for the workspace
-# Required environment variables for this build environment:
-# PATH must include /tmp/gcc-root/bin and /tmp/gcc-root/usr/bin
-# LIBRARY_PATH must include /tmp/gcc-root/usr/lib/x86_64-linux-gnu
-# C_INCLUDE_PATH must include /tmp/gcc-root/usr/include
-# LD_LIBRARY_PATH must include /tmp/gcc-root/usr/lib/x86_64-linux-gnu
+[target.x86_64-unknown-linux-gnu]
+rustflags = [
+    "-C", "link-arg=-L/home/node/gcc-root/usr/lib/x86_64-linux-gnu",
+    "-C", "link-arg=-L/home/node/gcc-root/usr/lib/gcc/x86_64-linux-gnu/12",
+]
+linker = "/home/node/gcc-root/bin/cc"
+
+[env]
+CC = "/home/node/gcc-root/bin/cc"
+AR = "/home/node/gcc-root/bin/ar"

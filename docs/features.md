@@ -1416,11 +1416,11 @@ impl StorageDispatcher {
 
 ### Step 3.5: ProxyServer.run() の完全実装
 
-- [ ] Step 3.1 の `run()` メソッドを完全に実装
-- [ ] hudsucker の `ProxyBuilder` を使用してプロキシを構築
-- [ ] `NetcapHandler` を HttpHandler として登録
-- [ ] TLS 証明書プロバイダとの統合
-- [ ] Graceful Shutdown のフルフロー実装
+- [x] Step 3.1 の `run()` メソッドを完全に実装 <!-- 2026-03-12 15:30 JST -->
+- [x] hudsucker の `ProxyBuilder` を使用してプロキシを構築 <!-- 2026-03-12 15:30 JST -->
+- [x] `NetcapHandler` を HttpHandler として登録 <!-- 2026-03-12 15:30 JST -->
+- [x] TLS 証明書プロバイダとの統合 <!-- 2026-03-12 15:30 JST -->
+- [x] Graceful Shutdown のフルフロー実装 <!-- 2026-03-12 15:30 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/proxy/mod.rs` (run メソッドの実装)
 

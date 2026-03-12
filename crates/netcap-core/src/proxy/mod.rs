@@ -3,18 +3,24 @@ pub mod handler;
 
 use std::sync::Arc;
 use tokio::sync::broadcast;
+use uuid::Uuid;
 
 use crate::config::ProxyConfig;
 use crate::error::ProxyError;
 use crate::filter::DomainFilter;
+use crate::storage::buffer::CaptureBuffer;
+use crate::storage::dispatcher::StorageDispatcher;
 use crate::storage::StorageBackend;
+use crate::tls::ca::RcgenCaProvider;
 use crate::tls::CertificateProvider;
+
+use handler::NetcapHandler;
 
 pub struct ProxyServer {
     config: ProxyConfig,
-    _cert_provider: Arc<dyn CertificateProvider>,
-    _domain_filter: Arc<DomainFilter>,
-    _storage: Arc<dyn StorageBackend>,
+    cert_provider: Arc<dyn CertificateProvider>,
+    domain_filter: Arc<DomainFilter>,
+    storage: Arc<dyn StorageBackend>,
     shutdown_tx: broadcast::Sender<()>,
 }
 
@@ -59,11 +65,11 @@ impl ProxyServerBuilder {
         let (shutdown_tx, _) = broadcast::channel(1);
         Ok(ProxyServer {
             config: self.config,
-            _cert_provider: self.cert_provider.ok_or(ProxyError::NotRunning)?,
-            _domain_filter: self
+            cert_provider: self.cert_provider.ok_or(ProxyError::NotRunning)?,
+            domain_filter: self
                 .domain_filter
                 .unwrap_or_else(|| Arc::new(DomainFilter::new())),
-            _storage: self.storage.ok_or(ProxyError::NotRunning)?,
+            storage: self.storage.ok_or(ProxyError::NotRunning)?,
             shutdown_tx,
         })
     }
@@ -85,11 +91,73 @@ impl ProxyServer {
     }
 
     pub async fn run(&self) -> Result<(), ProxyError> {
+        use hudsucker::certificate_authority::RcgenAuthority;
+
+        // Get CA certificate from provider
+        let ca = self
+            .cert_provider
+            .get_or_create_ca()
+            .await
+            .map_err(|e| ProxyError::UpstreamConnection(format!("CA error: {}", e)))?;
+
+        // Convert PEM to DER for hudsucker's RcgenAuthority
+        let cert_der = RcgenCaProvider::pem_to_der(&ca.cert_pem);
+        let key_der = RcgenCaProvider::pem_to_der(&ca.key_pem);
+
+        let private_key = hudsucker::rustls::PrivateKey(key_der);
+        let ca_cert = hudsucker::rustls::Certificate(cert_der);
+
+        let authority = RcgenAuthority::new(private_key, ca_cert, 1000)
+            .map_err(|e| ProxyError::UpstreamConnection(format!("RcgenAuthority: {}", e)))?;
+
+        // Create capture buffer & dispatcher
+        let (buffer_tx, buffer_rx) = CaptureBuffer::new(self.config.max_connections);
+        let mut dispatcher = StorageDispatcher::new(
+            vec![Arc::clone(&self.storage)],
+            buffer_rx,
+            100,
+            std::time::Duration::from_millis(100),
+        );
+
+        // Create handler
+        let session_id = Uuid::now_v7();
+        let netcap_handler = NetcapHandler::new(
+            self.domain_filter.clone(),
+            buffer_tx.into_inner(),
+            session_id,
+            self.config.max_body_size,
+        );
+
+        // Build hudsucker proxy
+        let proxy = hudsucker::Proxy::builder()
+            .with_addr(self.config.listen_addr)
+            .with_rustls_client()
+            .with_ca(authority)
+            .with_http_handler(netcap_handler)
+            .build();
+
         let mut shutdown_rx = self.shutdown_tx.subscribe();
+
         tracing::info!("Proxy starting on {}", self.config.listen_addr);
-        let _ = shutdown_rx.recv().await;
-        tracing::info!("Proxy shutting down");
-        Ok(())
+
+        // Run dispatcher in background
+        let dispatcher_handle = tokio::spawn(async move {
+            dispatcher.run().await;
+        });
+
+        // Run proxy with shutdown signal
+        let proxy_result = proxy
+            .start(async move {
+                let _ = shutdown_rx.recv().await;
+            })
+            .await;
+
+        // Wait for dispatcher to finish
+        let _ = dispatcher_handle.await;
+
+        tracing::info!("Proxy shut down");
+
+        proxy_result.map_err(|e| ProxyError::UpstreamConnection(format!("Proxy error: {}", e)))
     }
 
     pub fn shutdown(&self) -> Result<(), ProxyError> {
@@ -181,9 +249,28 @@ mod tests {
             .storage(Arc::new(MockStorage))
             .build()
             .unwrap();
-        // subscribe so there's an active receiver
         let mut rx = server.shutdown_tx.subscribe();
         assert!(server.shutdown().is_ok());
         assert!(rx.recv().await.is_ok());
+    }
+
+    #[tokio::test]
+    async fn run_and_shutdown() {
+        let mut config = ProxyConfig::default();
+        config.listen_addr = "127.0.0.1:0".parse().unwrap();
+        let server = Arc::new(
+            ProxyServer::builder()
+                .config(config)
+                .cert_provider(mock_cert_provider())
+                .storage(Arc::new(MockStorage))
+                .build()
+                .unwrap(),
+        );
+        let server_clone = Arc::clone(&server);
+        let handle = tokio::spawn(async move { server_clone.run().await });
+        tokio::time::sleep(std::time::Duration::from_millis(200)).await;
+        assert!(server.shutdown().is_ok());
+        let result = handle.await.unwrap();
+        assert!(result.is_ok());
     }
 }

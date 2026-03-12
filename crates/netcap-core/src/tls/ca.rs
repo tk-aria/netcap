@@ -67,7 +67,15 @@ impl RcgenCaProvider {
         format!("{:02X}", der_bytes.len()) // Use DER length as identifier
     }
 
-    fn pem_to_der(pem_str: &str) -> Vec<u8> {
+    pub fn ca_cert_pem(&self) -> &str {
+        &self.ca_cert_pem
+    }
+
+    pub fn ca_key_pem(&self) -> &str {
+        &self.ca_key_pem
+    }
+
+    pub fn pem_to_der(pem_str: &str) -> Vec<u8> {
         let mut in_body = false;
         let mut b64 = String::new();
         for line in pem_str.lines() {

@@ -27,6 +27,10 @@ impl BufferSender {
             mpsc::error::TrySendError::Closed(ex) => ex,
         })
     }
+
+    pub fn into_inner(self) -> mpsc::Sender<CapturedExchange> {
+        self.tx
+    }
 }
 
 pub struct BufferReceiver {
