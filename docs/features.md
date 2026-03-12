@@ -1873,9 +1873,9 @@ pub fn build_pcap_packet(
 
 ### Step 5.1: CLI 引数定義 (clap derive)
 
-- [ ] `crates/netcap-cli/src/args.rs` に clap derive でコマンド定義
-- [ ] `capture`, `cert` サブコマンドの引数を定義
-- [ ] グローバルオプション (config, verbose, format) を定義
+- [x] `crates/netcap-cli/src/args.rs` に clap derive でコマンド定義 (2026-03-12)
+- [x] `capture`, `cert` サブコマンドの引数を定義 (2026-03-12)
+- [x] グローバルオプション (config, verbose, format) を定義 (2026-03-12)
 
 **対象ファイル:** `crates/netcap-cli/src/args.rs`
 
@@ -1966,11 +1966,11 @@ pub enum StorageType {
 
 ### Step 5.2: capture サブコマンド実装
 
-- [ ] `crates/netcap-cli/src/commands/capture.rs` にキャプチャ実行ロジックを実装
-- [ ] ProxyServer の構築・起動
-- [ ] ドメインフィルタの設定
-- [ ] ストレージバックエンドの初期化
-- [ ] Ctrl+C による Graceful Shutdown
+- [x] `crates/netcap-cli/src/commands/capture.rs` にキャプチャ実行ロジックを実装 (2026-03-12)
+- [x] ProxyServer の構築・起動 (2026-03-12)
+- [x] ドメインフィルタの設定 (2026-03-12)
+- [x] ストレージバックエンドの初期化 (2026-03-12)
+- [x] Ctrl+C による Graceful Shutdown (2026-03-12)
 
 **対象ファイル:** `crates/netcap-cli/src/commands/capture.rs`
 
@@ -2060,9 +2060,9 @@ pub async fn execute(
 
 ### Step 5.3: cert サブコマンド実装
 
-- [ ] `crates/netcap-cli/src/commands/cert.rs` に CA証明書の生成・エクスポートを実装
-- [ ] `generate`: 新規CA証明書を生成してファイルに保存
-- [ ] `export`: 既存CA証明書を PEM 形式でエクスポート
+- [x] `crates/netcap-cli/src/commands/cert.rs` に CA証明書の生成・エクスポートを実装 (2026-03-12)
+- [x] `generate`: 新規CA証明書を生成してファイルに保存 (2026-03-12)
+- [x] `export`: 既存CA証明書を PEM 形式でエクスポート (2026-03-12)
 
 **対象ファイル:** `crates/netcap-cli/src/commands/cert.rs`
 
@@ -2075,9 +2075,9 @@ pub async fn execute(
 
 ### Step 5.4: 標準出力ログフォーマッタ
 
-- [ ] `crates/netcap-cli/src/output.rs` にリアルタイムログ出力フォーマッタを実装
-- [ ] HTTP メソッド・ステータスコード・ドメイン・パス・レイテンシを1行で表示
-- [ ] カラー出力対応 (ステータスコード別)
+- [x] `crates/netcap-cli/src/output.rs` にリアルタイムログ出力フォーマッタを実装 (2026-03-12)
+- [x] HTTP メソッド・ステータスコード・ドメイン・パス・レイテンシを1行で表示 (2026-03-12)
+- [x] カラー出力対応 (ステータスコード別) (2026-03-12)
 
 **対象ファイル:** `crates/netcap-cli/src/output.rs`
 
@@ -2115,10 +2115,10 @@ pub fn format_exchange(exchange: &CapturedExchange) -> String {
 
 ### Step 5.5: main.rs エントリポイント & TOML 設定ファイル対応
 
-- [ ] `crates/netcap-cli/src/main.rs` でコマンドディスパッチを実装
-- [ ] TOML 設定ファイルの読み込みを実装 (toml クレート)
-- [ ] CLI 引数と設定ファイルのマージ（CLI優先）
-- [ ] tracing-subscriber の初期化
+- [x] `crates/netcap-cli/src/main.rs` でコマンドディスパッチを実装 (2026-03-12)
+- [x] TOML 設定ファイルの読み込みを実装 (toml クレート) (2026-03-12)
+- [x] CLI 引数と設定ファイルのマージ（CLI優先） (2026-03-12)
+- [x] tracing-subscriber の初期化 (2026-03-12)
 
 **対象ファイル:** `crates/netcap-cli/src/main.rs`
 
@@ -2165,10 +2165,10 @@ async fn main() -> anyhow::Result<()> {
 
 ### Step 5.6: 統合テスト & 設定テンプレート
 
-- [ ] `tests/integration/proxy_test.rs` にプロキシ起動 → HTTP キャプチャの E2E テスト
-- [ ] `tests/integration/filter_test.rs` にドメインフィルタの E2E テスト
-- [ ] `tests/integration/storage_test.rs` に各ストレージバックエンドの E2E テスト
-- [ ] `config/netcap.example.toml` に設定ファイルテンプレートを作成
+- [x] `tests/integration/proxy_test.rs` にプロキシ起動 → HTTP キャプチャの E2E テスト (2026-03-12)
+- [x] `tests/integration/filter_test.rs` にドメインフィルタの E2E テスト (2026-03-12)
+- [x] `tests/integration/storage_test.rs` に各ストレージバックエンドの E2E テスト (2026-03-12)
+- [x] `config/netcap.example.toml` に設定ファイルテンプレートを作成 (2026-03-12)
 
 **設定テンプレート:**
 ```toml

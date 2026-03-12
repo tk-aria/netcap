@@ -1,0 +1,28 @@
+# netcap configuration file
+
+[proxy]
+listen_addr = "127.0.0.1:8080"
+max_connections = 1024
+max_body_size = 10485760  # 10MB
+request_timeout = 30
+
+[session]
+capture_request_body = true
+capture_response_body = true
+default_action = "capture"
+
+[[filters]]
+name = "capture-example"
+type = "include"
+pattern = "*.example.com"
+pattern_type = "wildcard"
+priority = 100
+
+[[storage]]
+type = "sqlite"
+path = "./netcap.db"
+
+[[storage]]
+type = "jsonl"
+path = "./netcap.jsonl"
+rotate_size = 104857600  # 100MB
