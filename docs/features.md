@@ -1844,26 +1844,26 @@ pub fn build_pcap_packet(
 
 ### Step 4.5: Phase 4 テスト・ビルド検証
 
-- [ ] 各ストレージバックエンドの単体テスト実装
-- [ ] FanoutWriter による3バックエンド同時書き出しの結合テスト
-- [ ] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装
-- [ ] `cargo build --workspace` が正常完了すること
-- [ ] `cargo test --workspace` が全テストパスすること
-- [ ] `docker build` が正常完了し、コンテナが起動すること
-- [ ] **skip/TODO残留チェック:** `crates/netcap-storage-sqlite/`, `crates/netcap-storage-jsonl/`, `crates/netcap-storage-pcap/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
-- [ ] **Phase 4 機能検証チェックリスト:**
-  - [ ] `SqliteStorage::new()` で DB ファイルが作成され、テーブル・インデックスが存在すること
-  - [ ] `SqliteStorage::write()` / `write_batch()` で CapturedExchange が正しく INSERT されること
-  - [ ] WAL モードが有効になっていること (`PRAGMA journal_mode`)
-  - [ ] `JsonlStorage::write()` で JSONL ファイルに1行追記されること
-  - [ ] 各行が有効な JSON としてパースできること
-  - [ ] `rotate_size` 超過でファイルローテーションが動作すること
-  - [ ] `PcapStorage::write()` で PCAP ファイルにパケットが追記されること
-  - [ ] 生成された PCAP ファイルが `pcap-file` crate で再読み込み可能なこと
-  - [ ] `FanoutWriter::write_all()` で3バックエンドに同時書き出しされること
-  - [ ] 上記を実際に `cargo test` で確認
-  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
-  - [ ] 正常動作のエビデンスを `docs/evidence/phase4_report.md` にまとめる
+- [x] 各ストレージバックエンドの単体テスト実装 (2026-03-12)
+- [x] FanoutWriter による3バックエンド同時書き出しの結合テスト (2026-03-12)
+- [x] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装 (2026-03-12)
+- [x] `cargo build --workspace` が正常完了すること (2026-03-12)
+- [x] `cargo test --workspace` が全テストパスすること (2026-03-12)
+- [x] `docker build` が正常完了し、コンテナが起動すること (2026-03-12)
+- [x] **skip/TODO残留チェック:** `crates/netcap-storage-sqlite/`, `crates/netcap-storage-jsonl/`, `crates/netcap-storage-pcap/` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる (2026-03-12)
+- [x] **Phase 4 機能検証チェックリスト:** (2026-03-12)
+  - [x] `SqliteStorage::new()` で DB ファイルが作成され、テーブル・インデックスが存在すること (2026-03-12)
+  - [x] `SqliteStorage::write()` / `write_batch()` で CapturedExchange が正しく INSERT されること (2026-03-12)
+  - [x] WAL モードが有効になっていること (`PRAGMA journal_mode`) (2026-03-12)
+  - [x] `JsonlStorage::write()` で JSONL ファイルに1行追記されること (2026-03-12)
+  - [x] 各行が有効な JSON としてパースできること (2026-03-12)
+  - [x] `rotate_size` 超過でファイルローテーションが動作すること (2026-03-12)
+  - [x] `PcapStorage::write()` で PCAP ファイルにパケットが追記されること (2026-03-12)
+  - [x] 生成された PCAP ファイルが `pcap-file` crate で再読み込み可能なこと (2026-03-12)
+  - [x] `FanoutWriter::write_all()` で3バックエンドに同時書き出しされること (2026-03-12)
+  - [x] 上記を実際に `cargo test` で確認 (2026-03-12)
+  - [x] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す (2026-03-12)
+  - [x] 正常動作のエビデンスを `docs/evidence/phase4_report.md` にまとめる (2026-03-12)
 
 ---
 
