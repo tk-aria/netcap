@@ -1464,10 +1464,10 @@ impl StorageDispatcher {
 
 ### Step 4.1: SQLite ストレージ — スキーマ定義
 
-- [ ] `crates/netcap-storage-sqlite/src/schema.rs` にテーブル作成SQLとマイグレーションを実装
-- [ ] 6テーブル + 1中間テーブルの CREATE TABLE を定義
-- [ ] インデックス作成SQLを定義
-- [ ] WALモード設定のプラグマを追加
+- [x] `crates/netcap-storage-sqlite/src/schema.rs` にテーブル作成SQLとマイグレーションを実装 <!-- 2026-03-12 16:00 JST -->
+- [x] 6テーブル + 1中間テーブルの CREATE TABLE を定義 <!-- 2026-03-12 16:00 JST -->
+- [x] インデックス作成SQLを定義 <!-- 2026-03-12 16:00 JST -->
+- [x] WALモード設定のプラグマを追加 <!-- 2026-03-12 16:00 JST -->
 
 **対象ファイル:** `crates/netcap-storage-sqlite/src/schema.rs`
 
@@ -1557,10 +1557,10 @@ pub fn initialize_schema(conn: &rusqlite::Connection) -> Result<(), rusqlite::Er
 
 ### Step 4.2: SQLite ストレージ — クエリ & StorageBackend 実装
 
-- [ ] `crates/netcap-storage-sqlite/src/queries.rs` に INSERT / SELECT の SQL 定数とヘルパー関数を実装
-- [ ] `crates/netcap-storage-sqlite/src/lib.rs` に `SqliteStorage` 構造体と `StorageBackend` trait 実装
-- [ ] `tokio::task::spawn_blocking` で同期 rusqlite 呼び出しを非同期コンテキストで実行
-- [ ] バッチ INSERT をトランザクション内で実行
+- [x] `crates/netcap-storage-sqlite/src/queries.rs` に INSERT / SELECT の SQL 定数とヘルパー関数を実装 <!-- 2026-03-12 16:00 JST -->
+- [x] `crates/netcap-storage-sqlite/src/lib.rs` に `SqliteStorage` 構造体と `StorageBackend` trait 実装 <!-- 2026-03-12 16:00 JST -->
+- [x] `tokio::task::spawn_blocking` で同期 rusqlite 呼び出しを非同期コンテキストで実行 <!-- 2026-03-12 16:00 JST -->
+- [x] バッチ INSERT をトランザクション内で実行 <!-- 2026-03-12 16:00 JST -->
 
 **対象ファイル:**
 ```
@@ -1654,9 +1654,9 @@ impl StorageBackend for SqliteStorage {
 
 ### Step 4.3: JSONL ストレージ実装
 
-- [ ] `crates/netcap-storage-jsonl/src/lib.rs` に `JsonlStorage` と `StorageBackend` 実装
-- [ ] `crates/netcap-storage-jsonl/src/serializer.rs` に CapturedExchange → JSON 変換
-- [ ] `crates/netcap-storage-jsonl/src/rotation.rs` にファイルローテーション（サイズベース）
+- [x] `crates/netcap-storage-jsonl/src/lib.rs` に `JsonlStorage` と `StorageBackend` 実装 <!-- 2026-03-12 16:00 JST -->
+- [x] `crates/netcap-storage-jsonl/src/serializer.rs` に CapturedExchange → JSON 変換 <!-- 2026-03-12 16:00 JST -->
+- [x] `crates/netcap-storage-jsonl/src/rotation.rs` にファイルローテーション（サイズベース） <!-- 2026-03-12 16:00 JST -->
 
 **対象ファイル:**
 ```
