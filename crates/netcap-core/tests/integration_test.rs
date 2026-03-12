@@ -7,12 +7,19 @@ use netcap_core::config::{DefaultAction, ProxyConfig, SessionConfig, StorageBack
 use netcap_core::error::{CaptureError, CertError, FilterError, ProxyError, StorageError};
 use netcap_core::filter::pattern::DomainPattern;
 use netcap_core::filter::{CaptureDecision, DomainFilter, DomainMatcher, FilterRule, FilterType};
+use netcap_core::proxy::connection::ConnectionTracker;
+use netcap_core::proxy::ProxyServer;
+use netcap_core::storage::buffer::CaptureBuffer;
+use netcap_core::storage::dispatcher::StorageDispatcher;
 use netcap_core::storage::FanoutWriter;
+use netcap_core::tls::ca::RcgenCaProvider;
+use netcap_core::tls::CertificateProvider;
 
 use async_trait::async_trait;
 use bytes::Bytes;
 use chrono::Utc;
 use http::{HeaderMap, Method, StatusCode, Version};
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use uuid::Uuid;
 
@@ -515,4 +522,176 @@ async fn fanout_writer_empty_backends() {
     };
     let results = fanout.write_all(&exchange).await;
     assert!(results.is_empty());
+}
+
+// ============================================================
+// Phase 3: Proxy module integration tests
+// ============================================================
+
+#[derive(Debug)]
+struct CountingStorage {
+    write_count: AtomicUsize,
+}
+
+impl CountingStorage {
+    fn new() -> Self {
+        Self {
+            write_count: AtomicUsize::new(0),
+        }
+    }
+}
+
+#[async_trait]
+impl netcap_core::storage::StorageBackend for CountingStorage {
+    async fn initialize(&mut self) -> Result<(), StorageError> {
+        Ok(())
+    }
+    async fn write(&self, _: &CapturedExchange) -> Result<(), StorageError> {
+        self.write_count.fetch_add(1, Ordering::SeqCst);
+        Ok(())
+    }
+    async fn write_batch(&self, batch: &[CapturedExchange]) -> Result<(), StorageError> {
+        self.write_count.fetch_add(batch.len(), Ordering::SeqCst);
+        Ok(())
+    }
+    async fn flush(&self) -> Result<(), StorageError> {
+        Ok(())
+    }
+    async fn close(&mut self) -> Result<(), StorageError> {
+        Ok(())
+    }
+}
+
+fn mock_cert_provider() -> Arc<dyn CertificateProvider> {
+    let tmp = tempfile::TempDir::new().unwrap();
+    Arc::new(RcgenCaProvider::generate_ca("Test CA", tmp.path()).unwrap())
+}
+
+#[test]
+fn proxy_builder_all_fields_build_success() {
+    let server = ProxyServer::builder()
+        .config(ProxyConfig::default())
+        .cert_provider(mock_cert_provider())
+        .domain_filter(Arc::new(DomainFilter::new()))
+        .storage(Arc::new(CountingStorage::new()))
+        .build();
+    assert!(server.is_ok());
+}
+
+#[tokio::test]
+async fn proxy_run_and_graceful_shutdown() {
+    let mut config = ProxyConfig::default();
+    config.listen_addr = "127.0.0.1:0".parse().unwrap();
+    let server = Arc::new(
+        ProxyServer::builder()
+            .config(config)
+            .cert_provider(mock_cert_provider())
+            .storage(Arc::new(CountingStorage::new()))
+            .build()
+            .unwrap(),
+    );
+    let server_clone = Arc::clone(&server);
+    let handle = tokio::spawn(async move { server_clone.run().await });
+    tokio::time::sleep(std::time::Duration::from_millis(200)).await;
+    assert!(server.shutdown().is_ok());
+    let result = handle.await.unwrap();
+    assert!(result.is_ok());
+}
+
+#[test]
+fn connection_tracker_tracks_and_counts() {
+    let tracker = ConnectionTracker::new();
+    let id = Uuid::now_v7();
+    let info = netcap_core::proxy::connection::ConnectionInfo {
+        id,
+        session_id: Uuid::now_v7(),
+        client_addr: "127.0.0.1:12345".parse().unwrap(),
+        server_hostname: "example.com".to_string(),
+        server_addr: Some("93.184.216.34:443".parse().unwrap()),
+        is_tls: true,
+        tls_version: Some("TLSv1.3".to_string()),
+        cipher_suite: None,
+        sni: Some("example.com".to_string()),
+        alpn: None,
+        established_at: Utc::now(),
+        closed_at: None,
+        close_reason: None,
+        request_count: 0,
+    };
+    tracker.track(info);
+    assert_eq!(tracker.active_count(), 1);
+    tracker.increment_request_count(&id);
+    let conn = tracker.get(&id).unwrap();
+    assert_eq!(conn.request_count, 1);
+    tracker.close(&id, "done");
+    assert_eq!(tracker.active_count(), 0);
+}
+
+#[tokio::test]
+async fn buffer_sender_receiver_event_flow() {
+    let (tx, mut rx) = CaptureBuffer::new(10);
+    let exchange = CapturedExchange {
+        request: make_test_request(),
+        response: None,
+    };
+    tx.send(exchange).await.unwrap();
+    let batch = rx.recv_batch(10).await;
+    assert_eq!(batch.len(), 1);
+}
+
+#[tokio::test]
+async fn dispatcher_writes_to_multiple_backends() {
+    let backend1 = Arc::new(CountingStorage::new());
+    let backend2 = Arc::new(CountingStorage::new());
+    let (tx, rx) = CaptureBuffer::new(100);
+    let mut dispatcher = StorageDispatcher::new(
+        vec![backend1.clone(), backend2.clone()],
+        rx,
+        10,
+        std::time::Duration::from_secs(60),
+    );
+    for _ in 0..3 {
+        let exchange = CapturedExchange {
+            request: make_test_request(),
+            response: None,
+        };
+        tx.send(exchange).await.unwrap();
+    }
+    drop(tx);
+    dispatcher.run().await;
+    assert_eq!(backend1.write_count.load(Ordering::SeqCst), 3);
+    assert_eq!(backend2.write_count.load(Ordering::SeqCst), 3);
+}
+
+#[test]
+fn domain_filter_include_exclude_default_integration() {
+    let mut filter = DomainFilter::new();
+    filter.add_rule(FilterRule {
+        id: Uuid::now_v7(),
+        name: "include-api".into(),
+        filter_type: FilterType::Include,
+        pattern: DomainPattern::new_exact("api.example.com"),
+        priority: 0,
+        enabled: true,
+    });
+    filter.add_rule(FilterRule {
+        id: Uuid::now_v7(),
+        name: "exclude-internal".into(),
+        filter_type: FilterType::Exclude,
+        pattern: DomainPattern::new_exact("internal.example.com"),
+        priority: 0,
+        enabled: true,
+    });
+    assert!(matches!(
+        filter.evaluate("api.example.com"),
+        CaptureDecision::Capture(_)
+    ));
+    assert!(matches!(
+        filter.evaluate("internal.example.com"),
+        CaptureDecision::Passthrough
+    ));
+    assert!(matches!(
+        filter.evaluate("unknown.example.com"),
+        CaptureDecision::Default
+    ));
 }
