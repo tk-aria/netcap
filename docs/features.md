@@ -1769,9 +1769,9 @@ impl StorageBackend for JsonlStorage {
 
 ### Step 4.4: PCAP ストレージ実装
 
-- [ ] `crates/netcap-storage-pcap/src/lib.rs` に `PcapStorage` と `StorageBackend` 実装
-- [ ] `crates/netcap-storage-pcap/src/converter.rs` に HTTP データ → PCAP パケット変換
-- [ ] TCP/IP ヘッダの擬似パケット構築
+- [x] `crates/netcap-storage-pcap/src/lib.rs` に `PcapStorage` と `StorageBackend` 実装 <!-- 2026-03-12 17:00 JST -->
+- [x] `crates/netcap-storage-pcap/src/converter.rs` に HTTP データ → PCAP パケット変換 <!-- 2026-03-12 17:00 JST -->
+- [x] TCP/IP ヘッダの擬似パケット構築 <!-- 2026-03-12 17:00 JST -->
 
 **対象ファイル:**
 ```
