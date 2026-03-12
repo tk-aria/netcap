@@ -993,9 +993,9 @@ impl CertificateCache {
 
 ### Step 3.1: ProxyServer & ProxyServerBuilder
 
-- [ ] `crates/netcap-core/src/proxy/mod.rs` に `ProxyServer` と `ProxyServerBuilder` を実装
-- [ ] hudsucker の `Proxy` をラップし、設定に基づくプロキシ起動を実装
-- [ ] Graceful Shutdown (`tokio::sync::broadcast`) を実装
+- [x] `crates/netcap-core/src/proxy/mod.rs` に `ProxyServer` と `ProxyServerBuilder` を実装 <!-- 2026-03-12 11:58 JST -->
+- [x] hudsucker の `Proxy` をラップし、設定に基づくプロキシ起動を実装 <!-- 2026-03-12 11:58 JST -->
+- [x] Graceful Shutdown (`tokio::sync::broadcast`) を実装 <!-- 2026-03-12 11:58 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/proxy/mod.rs`
 
@@ -1106,11 +1106,11 @@ impl ProxyServer {
 
 ### Step 3.2: HTTP Handler 実装 (hudsucker HttpHandler)
 
-- [ ] `crates/netcap-core/src/proxy/handler.rs` に hudsucker の `HttpHandler` trait を実装
-- [ ] `handle_request` でリクエストをキャプチャ
-- [ ] `handle_response` でレスポンスをキャプチャ
-- [ ] ドメインフィルタとの連携
-- [ ] CapturedExchange を生成して Ring Buffer に送信
+- [x] `crates/netcap-core/src/proxy/handler.rs` に hudsucker の `HttpHandler` trait を実装 <!-- 2026-03-12 11:58 JST -->
+- [x] `handle_request` でリクエストをキャプチャ <!-- 2026-03-12 11:58 JST -->
+- [x] `handle_response` でレスポンスをキャプチャ <!-- 2026-03-12 11:58 JST -->
+- [x] ドメインフィルタとの連携 <!-- 2026-03-12 11:58 JST -->
+- [x] CapturedExchange を生成して Ring Buffer に送信 <!-- 2026-03-12 11:58 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/proxy/handler.rs`
 
@@ -1186,9 +1186,9 @@ impl HttpHandler for NetcapHandler {
 
 ### Step 3.3: 接続管理
 
-- [ ] `crates/netcap-core/src/proxy/connection.rs` に接続トラッキングを実装
-- [ ] Connection 構造体にTLS情報 (SNI, cipher suite, ALPN) を保持
-- [ ] 接続ごとのリクエストカウントを管理
+- [x] `crates/netcap-core/src/proxy/connection.rs` に接続トラッキングを実装 <!-- 2026-03-12 11:58 JST -->
+- [x] Connection 構造体にTLS情報 (SNI, cipher suite, ALPN) を保持 <!-- 2026-03-12 11:58 JST -->
+- [x] 接続ごとのリクエストカウントを管理 <!-- 2026-03-12 11:58 JST -->
 
 **対象ファイル:** `crates/netcap-core/src/proxy/connection.rs`
 
@@ -1267,10 +1267,10 @@ impl ConnectionTracker {
 
 ### Step 3.4: Ring Buffer & イベントディスパッチャ
 
-- [ ] `crates/netcap-core/src/storage/buffer.rs` に lock-free Ring Buffer を実装
-- [ ] `crates/netcap-core/src/storage/dispatcher.rs` にバッチディスパッチャを実装
-- [ ] バッチ間隔 (100ms) またはバッファ閾値でのバッチ取り出し
-- [ ] 複数 `StorageBackend` への並行書き出し
+- [x] `crates/netcap-core/src/storage/buffer.rs` に lock-free Ring Buffer を実装 <!-- 2026-03-12 11:58 JST -->
+- [x] `crates/netcap-core/src/storage/dispatcher.rs` にバッチディスパッチャを実装 <!-- 2026-03-12 11:58 JST -->
+- [x] バッチ間隔 (100ms) またはバッファ閾値でのバッチ取り出し <!-- 2026-03-12 11:58 JST -->
+- [x] 複数 `StorageBackend` への並行書き出し <!-- 2026-03-12 11:58 JST -->
 
 **対象ファイル:**
 ```
