@@ -240,18 +240,72 @@ impl HttpHandler for NetcapHandler {
 
         let exchange = self.capture_response(&parts, &body_bytes);
 
-        // Log captured exchange with timestamp
-        let timestamp = exchange.request.timestamp.format("%Y-%m-%dT%H:%M:%S%.3fZ");
-        let method = &exchange.request.method;
-        let uri = &exchange.request.uri;
-        if let Some(ref resp) = exchange.response {
-            let status = resp.status.as_u16();
-            let latency_ms = resp.latency.as_millis();
-            let body_size = resp.body.len();
-            println!(
-                "[{}] {} {} → {} ({} ms, {} bytes)",
-                timestamp, method, uri, status, latency_ms, body_size
-            );
+        // Log captured exchange with timestamp, headers, and body
+        {
+            let timestamp = exchange.request.timestamp.format("%Y-%m-%dT%H:%M:%S%.3fZ");
+            let method = &exchange.request.method;
+            let uri = &exchange.request.uri;
+
+            if let Some(ref resp) = exchange.response {
+                let status = resp.status.as_u16();
+                let latency_ms = resp.latency.as_millis();
+
+                // Summary line
+                println!(
+                    "[{}] {} {} → {} ({} ms)",
+                    timestamp, method, uri, status, latency_ms
+                );
+
+                // Request headers
+                if !exchange.request.headers.is_empty() {
+                    println!("  > Request Headers:");
+                    for (name, value) in exchange.request.headers.iter() {
+                        println!(
+                            "  >   {}: {}",
+                            name,
+                            value.to_str().unwrap_or("<binary>")
+                        );
+                    }
+                }
+
+                // Request body
+                if !exchange.request.body.is_empty() {
+                    let req_body_preview = String::from_utf8_lossy(
+                        &exchange.request.body[..exchange.request.body.len().min(200)],
+                    );
+                    println!(
+                        "  > Request Body ({} bytes): {}{}",
+                        exchange.request.body.len(),
+                        req_body_preview,
+                        if exchange.request.body.len() > 200 { "..." } else { "" }
+                    );
+                }
+
+                // Response headers
+                if !resp.headers.is_empty() {
+                    println!("  < Response Headers:");
+                    for (name, value) in resp.headers.iter() {
+                        println!(
+                            "  <   {}: {}",
+                            name,
+                            value.to_str().unwrap_or("<binary>")
+                        );
+                    }
+                }
+
+                // Response body
+                if !resp.body.is_empty() {
+                    let resp_body_preview = String::from_utf8_lossy(
+                        &resp.body[..resp.body.len().min(200)],
+                    );
+                    println!(
+                        "  < Response Body ({} bytes): {}{}",
+                        resp.body.len(),
+                        resp_body_preview,
+                        if resp.body.len() > 200 { "..." } else { "" }
+                    );
+                }
+            }
         }
 
         if let Err(e) = self.event_tx.try_send(exchange) {
