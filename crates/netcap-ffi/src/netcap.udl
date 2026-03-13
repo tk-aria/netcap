@@ -1,0 +1,46 @@
+// crates/netcap-ffi/src/netcap.udl
+namespace netcap {};
+
+dictionary FfiProxyConfig {
+    u16 listen_port;
+    string storage_path;
+    sequence<string> include_domains;
+    sequence<string> exclude_domains;
+};
+
+dictionary FfiCaptureStats {
+    u64 total_requests;
+    u64 total_responses;
+    u32 active_connections;
+    u64 bytes_captured;
+};
+
+[Error]
+enum FfiError {
+    "InitFailed",
+    "ProxyError",
+    "AlreadyRunning",
+    "NotRunning",
+    "StorageError",
+    "CertError",
+};
+
+interface NetcapProxy {
+    [Throws=FfiError]
+    constructor(FfiProxyConfig config);
+
+    [Throws=FfiError]
+    void start();
+
+    [Throws=FfiError]
+    void stop();
+
+    [Throws=FfiError]
+    string get_ca_certificate_pem();
+
+    [Throws=FfiError]
+    FfiCaptureStats get_stats();
+
+    [Throws=FfiError]
+    string get_capture_events(u64 offset, u64 limit);
+};

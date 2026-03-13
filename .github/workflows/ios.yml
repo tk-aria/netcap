@@ -1,0 +1,49 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crates/netcap-ffi/**"
+      - "crates/netcap-core/**"
+      - "ios/**"
+      - "scripts/build-ios.sh"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/netcap-ffi/**"
+      - "crates/netcap-core/**"
+      - "ios/**"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios,aarch64-apple-ios-sim,x86_64-apple-ios
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build for iOS (arm64)
+        run: |
+          cargo build --release \
+            --target aarch64-apple-ios \
+            -p netcap-ffi
+
+      - name: Build for iOS Simulator (arm64)
+        run: |
+          cargo build --release \
+            --target aarch64-apple-ios-sim \
+            -p netcap-ffi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: libnetcap_ffi-ios
+          path: |
+            target/aarch64-apple-ios/release/libnetcap_ffi.a
+            target/aarch64-apple-ios-sim/release/libnetcap_ffi.a
