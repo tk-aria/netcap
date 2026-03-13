@@ -45,6 +45,16 @@ pub enum Commands {
         #[command(subcommand)]
         action: CertAction,
     },
+    /// Replay captured requests
+    Replay {
+        /// Input file (.jsonl or .db)
+        #[arg(short = 'f', long)]
+        input: PathBuf,
+
+        /// Target base URL (replaces original host)
+        #[arg(short, long)]
+        target: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]

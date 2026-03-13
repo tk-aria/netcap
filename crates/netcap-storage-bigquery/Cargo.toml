@@ -17,3 +17,8 @@ serde_json = { workspace = true }
 
 [dev-dependencies]
 tokio-test = { workspace = true }
+bytes = { workspace = true }
+chrono = { workspace = true }
+http = { workspace = true }
+uuid = { workspace = true }
+tempfile = { workspace = true }

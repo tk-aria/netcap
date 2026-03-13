@@ -2240,10 +2240,10 @@ rotate_size = 104857600  # 100MB
 
 ### Step 6.1: BigQuery ストレージ実装
 
-- [ ] `crates/netcap-storage-bigquery/src/lib.rs` に `BigQueryStorage` と `StorageBackend` 実装
-- [ ] `crates/netcap-storage-bigquery/src/schema.rs` に BigQuery テーブルスキーマ定義
-- [ ] `crates/netcap-storage-bigquery/src/batch.rs` に バッチ挿入 & エクスポネンシャルバックオフリトライ
-- [ ] JSONL フォールバック (3回リトライ失敗時)
+- [x] `crates/netcap-storage-bigquery/src/lib.rs` に `BigQueryStorage` と `StorageBackend` 実装 (2026-03-12)
+- [x] `crates/netcap-storage-bigquery/src/schema.rs` に BigQuery テーブルスキーマ定義 (2026-03-12)
+- [x] `crates/netcap-storage-bigquery/src/batch.rs` に バッチ挿入 & エクスポネンシャルバックオフリトライ (2026-03-12)
+- [x] JSONL フォールバック (3回リトライ失敗時) (2026-03-12)
 
 **対象ファイル:**
 ```
@@ -2308,13 +2308,13 @@ where
 
 ### Step 6.2: TUI ダッシュボード実装
 
-- [ ] `crates/netcap-tui/src/main.rs` にエントリポイント
-- [ ] `crates/netcap-tui/src/app.rs` にアプリケーション状態管理
-- [ ] `crates/netcap-tui/src/ui/mod.rs` に UI レイアウト
-- [ ] `crates/netcap-tui/src/ui/request_list.rs` にリクエスト一覧パネル
-- [ ] `crates/netcap-tui/src/ui/detail_view.rs` にリクエスト/レスポンス詳細パネル
-- [ ] `crates/netcap-tui/src/ui/status_bar.rs` にステータスバー
-- [ ] `crates/netcap-tui/src/event.rs` にキーイベントハンドラ
+- [x] `crates/netcap-tui/src/main.rs` にエントリポイント (2026-03-12)
+- [x] `crates/netcap-tui/src/app.rs` にアプリケーション状態管理 (2026-03-12)
+- [x] `crates/netcap-tui/src/ui/mod.rs` に UI レイアウト (2026-03-12)
+- [x] `crates/netcap-tui/src/ui/request_list.rs` にリクエスト一覧パネル (2026-03-12)
+- [x] `crates/netcap-tui/src/ui/detail_view.rs` にリクエスト/レスポンス詳細パネル (2026-03-12)
+- [x] `crates/netcap-tui/src/ui/status_bar.rs` にステータスバー (2026-03-12)
+- [x] `crates/netcap-tui/src/event.rs` にキーイベントハンドラ (2026-03-12)
 
 **対象ファイル:**
 ```
@@ -2400,10 +2400,10 @@ impl App {
 
 ### Step 6.3: replay サブコマンド実装
 
-- [ ] `crates/netcap-cli/src/commands/replay.rs` にキャプチャ済みリクエストの再送を実装
-- [ ] SQLite / JSONL からキャプチャデータを読み込み
-- [ ] reqwest でリクエスト再送
-- [ ] 結果の比較表示
+- [x] `crates/netcap-cli/src/commands/replay.rs` にキャプチャ済みリクエストの再送を実装 (2026-03-12)
+- [x] SQLite / JSONL からキャプチャデータを読み込み (2026-03-12)
+- [x] reqwest でリクエスト再送 (2026-03-12)
+- [x] 結果の比較表示 (2026-03-12)
 
 **対象ファイル:** `crates/netcap-cli/src/commands/replay.rs`
 

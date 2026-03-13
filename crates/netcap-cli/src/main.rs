@@ -42,6 +42,9 @@ async fn main() -> anyhow::Result<()> {
         Commands::Cert { action } => {
             commands::cert::execute(action).await?;
         }
+        Commands::Replay { input, target } => {
+            commands::replay::execute(&input, target.as_deref()).await?;
+        }
     }
 
     Ok(())
