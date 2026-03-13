@@ -239,6 +239,21 @@ impl HttpHandler for NetcapHandler {
             .unwrap_or_default();
 
         let exchange = self.capture_response(&parts, &body_bytes);
+
+        // Log captured exchange with timestamp
+        let timestamp = exchange.request.timestamp.format("%Y-%m-%dT%H:%M:%S%.3fZ");
+        let method = &exchange.request.method;
+        let uri = &exchange.request.uri;
+        if let Some(ref resp) = exchange.response {
+            let status = resp.status.as_u16();
+            let latency_ms = resp.latency.as_millis();
+            let body_size = resp.body.len();
+            println!(
+                "[{}] {} {} → {} ({} ms, {} bytes)",
+                timestamp, method, uri, status, latency_ms, body_size
+            );
+        }
+
         if let Err(e) = self.event_tx.try_send(exchange) {
             tracing::warn!(
                 client_addr = %ctx.client_addr,
