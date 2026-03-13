@@ -2419,31 +2419,31 @@ impl App {
 
 ### Step 6.4: Phase 6 テスト・ビルド検証
 
-- [ ] BigQuery ストレージのモックテスト実装
-- [ ] TUI の状態管理テスト実装
-- [ ] replay コマンドのテスト実装
-- [ ] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装
-- [ ] `cargo build --release --workspace` が正常完了すること
-- [ ] `cargo test --workspace` が全テストパスすること
-- [ ] `docker build` が正常完了し、コンテナ内で `netcap capture` / `netcap-tui` が起動すること
-- [ ] **skip/TODO残留チェック:** `crates/netcap-storage-bigquery/`, `crates/netcap-tui/`, `crates/netcap-cli/src/commands/replay.rs` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる
-- [ ] **Phase 6 全機能検証チェックリスト:**
-  - [ ] BigQuery ストレージ:
-    - [ ] `BigQueryStorage::new()` で初期化が成功すること (wiremock モック)
-    - [ ] `write_batch()` で Streaming Insert が送信されること (モック検証)
-    - [ ] リトライが最大3回実行されること (モック検証)
-    - [ ] 3回失敗後に JSONL フォールバックが動作すること
-  - [ ] TUI:
-    - [ ] `netcap-tui` が起動し、ターミナルUIが表示されること
-    - [ ] 上下キーでリクエスト一覧が選択できること
-    - [ ] Enter で詳細ビューに切り替わること
-    - [ ] `q` で終了すること
-  - [ ] replay コマンド:
-    - [ ] `netcap replay --from ./netcap.jsonl` でリクエストが再送されること
-    - [ ] `netcap replay --from ./netcap.db` で SQLite からリクエストが読み込まれること
-  - [ ] 上記を実際に実行して動作確認
-  - [ ] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
-  - [ ] 正常動作のエビデンスを `docs/evidence/phase6_report.md` にまとめる
+- [x] BigQuery ストレージのモックテスト実装 (2026-03-13)
+- [x] TUI の状態管理テスト実装 (2026-03-13)
+- [x] replay コマンドのテスト実装 (2026-03-13)
+- [x] テストカバレッジ90%以上を確認。未テスト部分を特定し追加テストを実装 (2026-03-13)
+- [x] `cargo build --release --workspace` が正常完了すること (2026-03-13)
+- [x] `cargo test --workspace` が全テストパスすること (2026-03-13, 219 passed)
+- [ ] `docker build` が正常完了し、コンテナ内で `netcap capture` / `netcap-tui` が起動すること (Docker環境なし - Phase 8で実施)
+- [x] **skip/TODO残留チェック:** `crates/netcap-storage-bigquery/`, `crates/netcap-tui/`, `crates/netcap-cli/src/commands/replay.rs` 内の `todo!()`, `unimplemented!()`, `// TODO`, `// FIXME`, `#[ignore]` を検索し、残留があれば実装を完了させる (2026-03-13, 残留なし)
+- [x] **Phase 6 全機能検証チェックリスト:** (2026-03-13)
+  - [x] BigQuery ストレージ:
+    - [x] `BigQueryStorage::new()` で初期化が成功すること (wiremock モック)
+    - [x] `write_batch()` で Streaming Insert が送信されること (モック検証)
+    - [x] リトライが最大3回実行されること (モック検証)
+    - [x] 3回失敗後に JSONL フォールバックが動作すること
+  - [x] TUI:
+    - [x] `netcap-tui` が起動し、ターミナルUIが表示されること
+    - [x] 上下キーでリクエスト一覧が選択できること
+    - [x] Enter で詳細ビューに切り替わること
+    - [x] `q` で終了すること
+  - [x] replay コマンド:
+    - [x] `netcap replay --from ./netcap.jsonl` でリクエストが再送されること
+    - [x] `netcap replay --from ./netcap.db` で SQLite からリクエストが読み込まれること
+  - [x] 上記を実際に実行して動作確認
+  - [x] エラーが検出された場合、エラーが出なくなるまで修正を繰り返す
+  - [x] 正常動作のエビデンスを `docs/evidence/phase6_report.md` にまとめる
 
 ---
 
