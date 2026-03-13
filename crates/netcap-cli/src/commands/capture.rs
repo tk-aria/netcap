@@ -56,11 +56,23 @@ pub async fn execute(
     storage_types: &[StorageType],
     output_dir: &Path,
 ) -> Result<()> {
-    // 1. Prepare CA certificate
+    // 1. Prepare CA certificate (reuse existing if available)
     let ca_path = output_dir.join("netcap-ca");
     std::fs::create_dir_all(&ca_path)?;
-    let ca_provider = Arc::new(RcgenCaProvider::generate_ca("netcap CA", &ca_path)?);
-    tracing::info!("CA certificate generated");
+    let cert_file = ca_path.join("ca.pem");
+    let key_file = ca_path.join("ca.key.pem");
+    let ca_provider = if cert_file.exists() && key_file.exists() {
+        let provider = RcgenCaProvider::load_from_files(&cert_file, &key_file, &ca_path)?;
+        tracing::info!("CA certificate loaded from {}", ca_path.display());
+        Arc::new(provider)
+    } else {
+        let provider = RcgenCaProvider::generate_ca("netcap CA", &ca_path)?;
+        // Persist for reuse
+        std::fs::write(&cert_file, provider.ca_cert_pem())?;
+        std::fs::write(&key_file, provider.ca_key_pem())?;
+        tracing::info!("CA certificate generated and saved to {}", ca_path.display());
+        Arc::new(provider)
+    };
 
     // 2. Domain filter setup
     let mut filter = DomainFilter::new();
@@ -85,9 +97,16 @@ pub async fn execute(
         });
     }
 
-    // 3. Storage initialization (use first storage type)
-    let storage_type = storage_types.first().unwrap_or(&StorageType::Sqlite);
-    let storage = create_storage(storage_type, output_dir).await?;
+    // 3. Storage initialization (all specified backends)
+    let mut storages: Vec<Arc<dyn StorageBackend>> = Vec::new();
+    let types: Vec<&StorageType> = if storage_types.is_empty() {
+        vec![&StorageType::Sqlite]
+    } else {
+        storage_types.iter().collect()
+    };
+    for st in &types {
+        storages.push(create_storage(st, output_dir).await?);
+    }
 
     // 4. Build ProxyServer
     let config = ProxyConfig {
@@ -100,7 +119,7 @@ pub async fn execute(
             .config(config)
             .cert_provider(ca_provider)
             .domain_filter(Arc::new(filter))
-            .storage(storage)
+            .storages(storages)
             .build()?,
     );
 

@@ -50,12 +50,28 @@ mod convert {
     }
 }
 
+/// Stored request info for correlating with response.
+#[derive(Clone)]
+struct PendingRequestInfo {
+    id: Uuid,
+    connection_id: Uuid,
+    timestamp: chrono::DateTime<Utc>,
+    request_instant: std::time::Instant,
+    method: http::Method,
+    uri: http::Uri,
+    version: http::Version,
+    headers: http::HeaderMap,
+    body: Bytes,
+    body_truncated: bool,
+}
+
 #[derive(Clone)]
 pub struct NetcapHandler {
     filter: Arc<dyn DomainMatcher>,
     event_tx: mpsc::Sender<CapturedExchange>,
     session_id: Uuid,
     max_body_size: usize,
+    pending_request: Option<PendingRequestInfo>,
 }
 
 impl NetcapHandler {
@@ -70,6 +86,7 @@ impl NetcapHandler {
             event_tx,
             session_id,
             max_body_size,
+            pending_request: None,
         }
     }
 
@@ -94,65 +111,61 @@ impl NetcapHandler {
         }
     }
 
-    /// Capture a request and send it to the event channel.
-    /// Returns the body bytes so the caller can reconstruct the request.
-    pub(crate) async fn capture_request(
-        &self,
+    /// Capture a request and store it for later pairing with response.
+    pub(crate) fn capture_request(
+        &mut self,
         parts: &hudsucker::hyper::http::request::Parts,
         body_bytes: &[u8],
-    ) -> Option<CapturedExchange> {
+    ) {
         let (truncated_body, body_truncated) =
             Self::truncate_body(body_bytes, self.max_body_size);
 
-        let captured = CapturedRequest {
+        self.pending_request = Some(PendingRequestInfo {
             id: Uuid::now_v7(),
-            session_id: self.session_id,
             connection_id: Uuid::now_v7(),
-            sequence_number: 0,
             timestamp: Utc::now(),
+            request_instant: std::time::Instant::now(),
             method: convert::method(&parts.method),
             uri: convert::uri(&parts.uri),
             version: convert::version(parts.version),
             headers: convert::headers(&parts.headers),
             body: truncated_body,
             body_truncated,
-            tls_info: None,
-        };
-
-        Some(CapturedExchange {
-            request: captured,
-            response: None,
-        })
+        });
     }
 
-    /// Capture a response and send it to the event channel.
+    /// Capture a response paired with the pending request.
     pub(crate) fn capture_response(
-        &self,
+        &mut self,
         parts: &hudsucker::hyper::http::response::Parts,
         body_bytes: &[u8],
     ) -> CapturedExchange {
         let (truncated_body, body_truncated) =
             Self::truncate_body(body_bytes, self.max_body_size);
 
-        let request_id = Uuid::now_v7();
         let now = Utc::now();
 
-        let captured_response = CapturedResponse {
-            id: Uuid::now_v7(),
-            request_id,
-            timestamp: now,
-            status: convert::status(parts.status),
-            version: convert::version(parts.version),
-            headers: convert::headers(&parts.headers),
-            body: truncated_body,
-            body_truncated,
-            latency: std::time::Duration::from_millis(0),
-            ttfb: std::time::Duration::from_millis(0),
-        };
-
-        CapturedExchange {
-            request: CapturedRequest {
-                id: request_id,
+        // Use pending request info if available, otherwise create minimal placeholder
+        let (request, latency) = if let Some(pending) = self.pending_request.take() {
+            let latency = pending.request_instant.elapsed();
+            let req = CapturedRequest {
+                id: pending.id,
+                session_id: self.session_id,
+                connection_id: pending.connection_id,
+                sequence_number: 0,
+                timestamp: pending.timestamp,
+                method: pending.method,
+                uri: pending.uri,
+                version: pending.version,
+                headers: pending.headers,
+                body: pending.body,
+                body_truncated: pending.body_truncated,
+                tls_info: None,
+            };
+            (req, latency)
+        } else {
+            let req = CapturedRequest {
+                id: Uuid::now_v7(),
                 session_id: self.session_id,
                 connection_id: Uuid::now_v7(),
                 sequence_number: 0,
@@ -164,7 +177,25 @@ impl NetcapHandler {
                 body: Bytes::new(),
                 body_truncated: false,
                 tls_info: None,
-            },
+            };
+            (req, std::time::Duration::from_millis(0))
+        };
+
+        let captured_response = CapturedResponse {
+            id: Uuid::now_v7(),
+            request_id: request.id,
+            timestamp: now,
+            status: convert::status(parts.status),
+            version: convert::version(parts.version),
+            headers: convert::headers(&parts.headers),
+            body: truncated_body,
+            body_truncated,
+            latency,
+            ttfb: latency,
+        };
+
+        CapturedExchange {
+            request,
             response: Some(captured_response),
         }
     }
@@ -174,7 +205,7 @@ impl NetcapHandler {
 impl HttpHandler for NetcapHandler {
     async fn handle_request(
         &mut self,
-        ctx: &HttpContext,
+        _ctx: &HttpContext,
         req: Request<Body>,
     ) -> RequestOrResponse {
         let host = Self::extract_host(&req);
@@ -187,15 +218,8 @@ impl HttpHandler for NetcapHandler {
                     .await
                     .unwrap_or_default();
 
-                if let Some(exchange) = self.capture_request(&parts, &body_bytes).await {
-                    if let Err(e) = self.event_tx.try_send(exchange) {
-                        tracing::warn!(
-                            client_addr = %ctx.client_addr,
-                            "Failed to send captured request: {}",
-                            e
-                        );
-                    }
-                }
+                // Store request info for pairing with response
+                self.capture_request(&parts, &body_bytes);
 
                 let req = Request::from_parts(parts, Body::from(body_bytes));
                 RequestOrResponse::Request(req)
@@ -328,42 +352,78 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
-    async fn capture_request_creates_exchange() {
+    #[test]
+    fn capture_request_stores_pending() {
         let filter: Arc<dyn DomainMatcher> = Arc::new(DomainFilter::new());
-        let (handler, _rx) = make_handler(filter, 10);
+        let (mut handler, _rx) = make_handler(filter, 10);
         let req = Request::builder()
             .uri("http://example.com/api")
             .body(Body::from("test body"))
             .unwrap();
         let (parts, _body) = req.into_parts();
-        let exchange = handler.capture_request(&parts, b"test body").await.unwrap();
-        assert_eq!(exchange.request.body, Bytes::from("test body"));
-        assert!(!exchange.request.body_truncated);
-        assert!(exchange.response.is_none());
+        handler.capture_request(&parts, b"test body");
+        assert!(handler.pending_request.is_some());
+        let pending = handler.pending_request.as_ref().unwrap();
+        assert_eq!(pending.uri.to_string(), "http://example.com/api");
+        assert_eq!(pending.body, Bytes::from("test body"));
+        assert!(!pending.body_truncated);
     }
 
     #[test]
-    fn capture_response_creates_exchange() {
+    fn capture_response_uses_pending_request() {
         let filter: Arc<dyn DomainMatcher> = Arc::new(DomainFilter::new());
-        let (handler, _rx) = make_handler(filter, 10);
+        let (mut handler, _rx) = make_handler(filter, 10);
+
+        // First capture a request
+        let req = Request::builder()
+            .uri("http://example.com/api")
+            .method(hudsucker::hyper::Method::POST)
+            .body(Body::from("req body"))
+            .unwrap();
+        let (req_parts, _body) = req.into_parts();
+        handler.capture_request(&req_parts, b"req body");
+
+        // Then capture the response
         let res = Response::builder()
             .status(200)
             .body(Body::from("resp"))
             .unwrap();
         let (parts, _body) = res.into_parts();
         let exchange = handler.capture_response(&parts, b"resp");
+
+        // Request should have the real URI
+        assert_eq!(exchange.request.uri.to_string(), "http://example.com/api");
+        assert_eq!(exchange.request.method, http::Method::POST);
+        assert_eq!(exchange.request.body, Bytes::from("req body"));
+
+        // Response should be linked to the request
         assert!(exchange.response.is_some());
         let resp = exchange.response.unwrap();
         assert_eq!(resp.status, http::StatusCode::OK);
-        assert_eq!(resp.body, Bytes::from("resp"));
+        assert_eq!(resp.request_id, exchange.request.id);
+        assert!(resp.latency.as_micros() > 0 || resp.latency.as_nanos() > 0);
+    }
+
+    #[test]
+    fn capture_response_without_pending_falls_back() {
+        let filter: Arc<dyn DomainMatcher> = Arc::new(DomainFilter::new());
+        let (mut handler, _rx) = make_handler(filter, 10);
+        let res = Response::builder()
+            .status(200)
+            .body(Body::from("resp"))
+            .unwrap();
+        let (parts, _body) = res.into_parts();
+        let exchange = handler.capture_response(&parts, b"resp");
+        // Without pending request, falls back to "http://unknown"
+        assert_eq!(exchange.request.uri.to_string(), "http://unknown/");
+        assert!(exchange.response.is_some());
     }
 
     #[test]
     fn capture_response_truncation() {
         let filter: Arc<dyn DomainMatcher> = Arc::new(DomainFilter::new());
         let (tx, _rx) = mpsc::channel(10);
-        let handler = NetcapHandler::new(filter, tx, Uuid::now_v7(), 3);
+        let mut handler = NetcapHandler::new(filter, tx, Uuid::now_v7(), 3);
         let res = Response::builder()
             .status(200)
             .body(Body::from("long response"))

@@ -20,7 +20,7 @@ pub struct ProxyServer {
     config: ProxyConfig,
     cert_provider: Arc<dyn CertificateProvider>,
     domain_filter: Arc<DomainFilter>,
-    storage: Arc<dyn StorageBackend>,
+    storages: Vec<Arc<dyn StorageBackend>>,
     shutdown_tx: broadcast::Sender<()>,
 }
 
@@ -28,7 +28,7 @@ pub struct ProxyServerBuilder {
     config: ProxyConfig,
     cert_provider: Option<Arc<dyn CertificateProvider>>,
     domain_filter: Option<Arc<DomainFilter>>,
-    storage: Option<Arc<dyn StorageBackend>>,
+    storages: Vec<Arc<dyn StorageBackend>>,
 }
 
 impl ProxyServerBuilder {
@@ -37,7 +37,7 @@ impl ProxyServerBuilder {
             config: ProxyConfig::default(),
             cert_provider: None,
             domain_filter: None,
-            storage: None,
+            storages: Vec::new(),
         }
     }
 
@@ -57,11 +57,19 @@ impl ProxyServerBuilder {
     }
 
     pub fn storage(mut self, storage: Arc<dyn StorageBackend>) -> Self {
-        self.storage = Some(storage);
+        self.storages.push(storage);
+        self
+    }
+
+    pub fn storages(mut self, storages: Vec<Arc<dyn StorageBackend>>) -> Self {
+        self.storages = storages;
         self
     }
 
     pub fn build(self) -> Result<ProxyServer, ProxyError> {
+        if self.storages.is_empty() {
+            return Err(ProxyError::NotRunning);
+        }
         let (shutdown_tx, _) = broadcast::channel(1);
         Ok(ProxyServer {
             config: self.config,
@@ -69,7 +77,7 @@ impl ProxyServerBuilder {
             domain_filter: self
                 .domain_filter
                 .unwrap_or_else(|| Arc::new(DomainFilter::new())),
-            storage: self.storage.ok_or(ProxyError::NotRunning)?,
+            storages: self.storages,
             shutdown_tx,
         })
     }
@@ -112,8 +120,10 @@ impl ProxyServer {
 
         // Create capture buffer & dispatcher
         let (buffer_tx, buffer_rx) = CaptureBuffer::new(self.config.max_connections);
+        let backends: Vec<Arc<dyn StorageBackend>> =
+            self.storages.iter().map(Arc::clone).collect();
         let mut dispatcher = StorageDispatcher::new(
-            vec![Arc::clone(&self.storage)],
+            backends,
             buffer_rx,
             100,
             std::time::Duration::from_millis(100),
