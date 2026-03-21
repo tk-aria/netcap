@@ -1,0 +1,22 @@
+[package]
+name = "odoo-bank-sync"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "odoo-bank-sync"
+path = "src/main.rs"
+
+[dependencies]
+reqwest = { workspace = true, features = ["json"] }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["env"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+csv = "1"
