@@ -1,0 +1,146 @@
+/* Odoo Dark Theme - Catppuccin Mocha inspired */
+
+body, .o_web_client {
+  background-color: #1e1e2e !important;
+  color: #cdd6f4 !important;
+}
+
+.o_main_navbar {
+  background-color: #181825 !important;
+  color: #cdd6f4 !important;
+  border-bottom: 1px solid #313244 !important;
+}
+
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_menu_entry_lvl_1 > a,
+.o_main_navbar .o_menu_entry_lvl_1 > button,
+.o_main_navbar .dropdown-toggle,
+.o_main_navbar .o_nav_entry {
+  color: #cdd6f4 !important;
+}
+
+.o_main_navbar .dropdown-menu {
+  background-color: #313244 !important;
+  color: #cdd6f4 !important;
+  border-color: #45475a !important;
+}
+
+.o_main_navbar .dropdown-item {
+  color: #cdd6f4 !important;
+}
+
+.o_main_navbar .dropdown-item:hover,
+.o_main_navbar .dropdown-item:focus {
+  background-color: #45475a !important;
+}
+
+.o_action_manager, .o_content {
+  background-color: #1e1e2e !important;
+}
+
+.o_kanban_view, .o_list_view, .o_form_view, .o_graph_view, .o_pivot_view {
+  background-color: #1e1e2e !important;
+  color: #cdd6f4 !important;
+}
+
+.o_form_sheet_bg { background-color: #181825 !important; }
+.o_form_sheet {
+  background-color: #313244 !important;
+  color: #cdd6f4 !important;
+  border-color: #45475a !important;
+}
+
+.o_kanban_record, .o_kanban_record:not(.o_kanban_ghost) {
+  background-color: #313244 !important;
+  color: #cdd6f4 !important;
+  border-color: #45475a !important;
+}
+
+.o_cp_searchview, .o_searchview {
+  background-color: #313244 !important;
+  color: #cdd6f4 !important;
+  border-color: #45475a !important;
+}
+
+.o_searchview_input { color: #cdd6f4 !important; }
+.o_searchview_facet { background-color: #45475a !important; color: #cdd6f4 !important; }
+
+.o_control_panel, .o_control_panel_main {
+  background-color: #1e1e2e !important;
+  color: #cdd6f4 !important;
+  border-color: #45475a !important;
+}
+
+.table, .o_list_table {
+  color: #cdd6f4 !important;
+  --bs-table-bg: #1e1e2e !important;
+  --bs-table-striped-bg: #181825 !important;
+  --bs-table-hover-bg: #313244 !important;
+}
+
+.table thead th { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+.table td, .table th { border-color: #45475a !important; }
+.table-striped > tbody > tr:nth-of-type(odd) > * { background-color: #181825 !important; }
+
+.o_field_widget input, .o_field_widget textarea, .o_field_widget select,
+input.o_input, textarea.o_input, select.o_input, .o_input {
+  background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important;
+}
+
+.o_field_widget input::placeholder { color: #6c7086 !important; }
+
+.modal-content { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+.modal-header, .modal-footer { border-color: #45475a !important; }
+
+a { color: #89b4fa !important; }
+a:hover { color: #b4d0fb !important; }
+.breadcrumb-item a { color: #89b4fa !important; }
+.breadcrumb { background-color: transparent !important; }
+
+.btn-primary { background-color: #89b4fa !important; border-color: #89b4fa !important; color: #1e1e2e !important; }
+.btn-primary:hover { background-color: #74c7ec !important; border-color: #74c7ec !important; }
+.btn-secondary { background-color: #45475a !important; border-color: #585b70 !important; color: #cdd6f4 !important; }
+
+.dropdown-menu { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+.dropdown-item { color: #cdd6f4 !important; }
+.dropdown-item:hover, .dropdown-item:focus { background-color: #45475a !important; color: #cdd6f4 !important; }
+
+.card { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+
+.o-mail-DiscussSidebar, .o-mail-Discuss-sidebar { background-color: #181825 !important; color: #cdd6f4 !important; }
+.o-mail-Thread { background-color: #1e1e2e !important; }
+.o-mail-Composer { background-color: #313244 !important; }
+
+.o_statusbar_status { background-color: #1e1e2e !important; }
+.o_base_settings { background-color: #1e1e2e !important; }
+.o_setting_box { background-color: #313244 !important; }
+
+h1, h2, h3, h4, h5, h6 { color: #cdd6f4 !important; }
+.text-muted { color: #a6adc8 !important; }
+label, .o_form_label { color: #a6adc8 !important; }
+
+.o_horizontal_separator { color: #cdd6f4 !important; border-color: #45475a !important; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #181825; }
+::-webkit-scrollbar-thumb { background: #45475a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #585b70; }
+
+.o_notification { background-color: #313244 !important; color: #cdd6f4 !important; }
+.badge { color: #cdd6f4 !important; }
+.o_stat_info .o_stat_value { color: #cdd6f4 !important; }
+.o_stat_info .o_stat_text { color: #a6adc8 !important; }
+
+.nav-tabs .nav-link { color: #cdd6f4 !important; }
+.nav-tabs .nav-link.active { background-color: #313244 !important; border-color: #45475a !important; color: #89b4fa !important; }
+.tab-content { background-color: #1e1e2e !important; }
+
+.o_group .o_group_col { border-color: #45475a !important; }
+.o_notebook > .tab-content { background-color: #313244 !important; }
+
+/* Pager */
+.o_pager .o_pager_value, .o_pager button { color: #cdd6f4 !important; }
+
+/* Chatter */
+.o-mail-Chatter { background-color: #1e1e2e !important; }
+.o-mail-Message { background-color: #313244 !important; border-color: #45475a !important; }

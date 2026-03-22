@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_financial_reports_root"
+              name="&#x8ca1;&#x52d9;&#x8af8;&#x8868;"
+              parent="account.account_reports_legal_statements_menu"
+              action="action_financial_report_wizard"
+              sequence="1"/>
+</odoo>

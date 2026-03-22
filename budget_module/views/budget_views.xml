@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Budget Form View -->
+    <record id="budget_budget_form" model="ir.ui.view">
+        <field name="name">budget.budget.form</field>
+        <field name="model">budget.budget</field>
+        <field name="arch" type="xml">
+            <form string="Budget">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_compute_actual" string="&#x5B9F;&#x7E3E;&#x518D;&#x8A08;&#x7B97;"
+                            type="object" invisible="state == 'cancelled'" class="btn-secondary"/>
+                    <button name="action_done" string="Done" type="object"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_draft" string="Reset to Draft" type="object"
+                            invisible="state not in ('confirmed', 'cancelled')"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <group string="&#x4E88;&#x5B9F;&#x5BFE;&#x6BD4;&#x30B5;&#x30DE;&#x30EA;&#x30FC;">
+                        <group>
+                            <field name="total_planned" string="&#x4E88;&#x7B97;&#x5408;&#x8A08;"/>
+                            <field name="total_actual" string="&#x5B9F;&#x7E3E;&#x5408;&#x8A08;"/>
+                        </group>
+                        <group>
+                            <field name="total_variance" string="&#x5DEE;&#x7570;"/>
+                            <field name="total_percentage" string="&#x9054;&#x6210;&#x7387; %"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Budget Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="account_id"/>
+                                    <field name="analytic_account_id" optional="show"/>
+                                    <field name="planned_amount" string="&#x4E88;&#x7B97;&#x984D;" sum="Total"/>
+                                    <field name="actual_amount" string="&#x5B9F;&#x7E3E;&#x984D;" sum="Total"/>
+                                    <field name="variance" string="&#x5DEE;&#x7570;" sum="Total"/>
+                                    <field name="percentage" string="&#x9054;&#x6210;%"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Budget List View -->
+    <record id="budget_budget_list" model="ir.ui.view">
+        <field name="name">budget.budget.list</field>
+        <field name="model">budget.budget</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="total_planned" string="&#x4E88;&#x7B97;"/>
+                <field name="total_actual" string="&#x5B9F;&#x7E3E;"/>
+                <field name="total_variance" string="&#x5DEE;&#x7570;"/>
+                <field name="total_percentage" string="&#x9054;&#x6210;%"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Budget Action -->
+    <record id="action_budget_budget" model="ir.actions.act_window">
+        <field name="name">&#x4E88;&#x7B97;</field>
+        <field name="res_model">budget.budget</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

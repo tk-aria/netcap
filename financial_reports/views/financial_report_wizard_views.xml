@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="financial_report_wizard_form" model="ir.ui.view">
+        <field name="name">financial.report.wizard.form</field>
+        <field name="model">financial.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="&#x8ca1;&#x52d9;&#x8af8;&#x8868;">
+                <group>
+                    <group>
+                        <field name="report_type"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="account_id" invisible="report_type != 'gl'"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate" string="&#x30ec;&#x30dd;&#x30fc;&#x30c8;&#x751f;&#x6210;" type="object" class="btn-primary"/>
+                    <button string="&#x9589;&#x3058;&#x308b;" class="btn-secondary" special="cancel"/>
+                </footer>
+                <field name="report_html" nolabel="1"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_financial_report_wizard" model="ir.actions.act_window">
+        <field name="name">&#x8ca1;&#x52d9;&#x8af8;&#x8868;</field>
+        <field name="res_model">financial.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

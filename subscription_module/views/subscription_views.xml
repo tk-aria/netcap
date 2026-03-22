@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Subscription Form View -->
+    <record id="sale_subscription_form" model="ir.ui.view">
+        <field name="name">sale.subscription.form</field>
+        <field name="model">sale.subscription</field>
+        <field name="arch" type="xml">
+            <form string="サブスクリプション">
+                <header>
+                    <button name="action_activate" string="有効化" type="object"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_create_invoice" string="&#x8ACB;&#x6C42;&#x66F8;&#x4F5C;&#x6210;"
+                            type="object" invisible="state != 'active'" class="btn-primary"/>
+                    <button name="action_pause" string="一時停止" type="object"
+                            invisible="state != 'active'"/>
+                    <button name="action_activate" string="再開" type="object"
+                            invisible="state != 'paused'" class="btn-primary"/>
+                    <button name="action_close" string="終了" type="object"
+                            invisible="state in ('draft', 'closed')"/>
+                    <button name="action_draft" string="下書きに戻す" type="object"
+                            invisible="state not in ('paused', 'closed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="&#x8ACB;&#x6C42;&#x66F8;"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="recurring_interval"/>
+                            <field name="recurring_rule_type"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="next_invoice_date"/>
+                        </group>
+                    </group>
+                    <group string="&#x58F2;&#x4E0A;&#x30B5;&#x30DE;&#x30EA;&#x30FC;">
+                        <group>
+                            <field name="recurring_total" string="&#x5B9A;&#x671F;&#x58F2;&#x4E0A;"/>
+                        </group>
+                        <group>
+                            <field name="mrr" string="MRR (&#x6708;&#x6B21;&#x7D4C;&#x5E38;&#x53CE;&#x76CA;)"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="&#x660E;&#x7D30;">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit" string="&#x5358;&#x4FA1;"/>
+                                    <field name="price_subtotal" string="&#x5C0F;&#x8A08;" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Subscription List View -->
+    <record id="sale_subscription_list" model="ir.ui.view">
+        <field name="name">sale.subscription.list</field>
+        <field name="model">sale.subscription</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="recurring_rule_type" string="&#x30B5;&#x30A4;&#x30AF;&#x30EB;"/>
+                <field name="recurring_total" string="&#x5B9A;&#x671F;&#x58F2;&#x4E0A;"/>
+                <field name="mrr" string="MRR"/>
+                <field name="next_invoice_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Subscription Action -->
+    <record id="action_sale_subscription" model="ir.actions.act_window">
+        <field name="name">&#x30B5;&#x30D6;&#x30B9;&#x30AF;&#x30EA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;</field>
+        <field name="res_model">sale.subscription</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
