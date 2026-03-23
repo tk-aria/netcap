@@ -144,3 +144,110 @@ label, .o_form_label { color: #a6adc8 !important; }
 /* Chatter */
 .o-mail-Chatter { background-color: #1e1e2e !important; }
 .o-mail-Message { background-color: #313244 !important; border-color: #45475a !important; }
+
+/* === Fix: Kanban group/column backgrounds === */
+.o_kanban_group, .o_kanban_group_header,
+.o_column_quick_create, .o_kanban_header {
+  background-color: #1e1e2e !important;
+  color: #cdd6f4 !important;
+}
+.o_kanban_group .o_kanban_header_title { color: #cdd6f4 !important; }
+.o_kanban_renderer { background-color: #1e1e2e !important; }
+.o_kanban_view .o_column_title { color: #cdd6f4 !important; }
+.o_kanban_record .oe_kanban_global_click,
+.o_kanban_record .oe_kanban_card { background-color: #313244 !important; color: #cdd6f4 !important; }
+.o_kanban_ghost { background-color: transparent !important; }
+
+/* === Fix: View controller & action backgrounds === */
+.o_view_controller, .o_action,
+.o_view_controller .o_content,
+.o_action_manager > .o_action {
+  background-color: #1e1e2e !important;
+  color: #cdd6f4 !important;
+}
+
+/* === Fix: Calendar view (FullCalendar) === */
+.o_calendar_view { background-color: #1e1e2e !important; }
+.o_calendar_renderer { background-color: #1e1e2e !important; }
+.fc { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
+.fc-theme-standard td, .fc-theme-standard th,
+.fc-theme-standard .fc-scrollgrid { border-color: #45475a !important; }
+.fc .fc-daygrid-body, .fc .fc-timegrid-body,
+.fc .fc-daygrid-day, .fc .fc-timegrid-slot,
+.fc-timegrid-slot, .fc-daygrid-day-frame {
+  background-color: #1e1e2e !important;
+}
+.fc .fc-col-header-cell { background-color: #313244 !important; color: #cdd6f4 !important; }
+.fc .fc-day-today { background-color: #313244 !important; }
+.fc .fc-daygrid-day-number, .fc .fc-col-header-cell-cushion { color: #cdd6f4 !important; }
+.fc .fc-timegrid-slot-label { color: #a6adc8 !important; }
+.fc .fc-button { background-color: #45475a !important; border-color: #585b70 !important; color: #cdd6f4 !important; }
+.fc .fc-button-active, .fc .fc-button:hover { background-color: #585b70 !important; }
+.fc-popover { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+.fc-popover .fc-popover-header { background-color: #45475a !important; color: #cdd6f4 !important; }
+.fc .fc-non-business { background-color: #181825 !important; }
+.fc .fc-bg-event { background-color: #45475a !important; }
+.o_calendar_sidebar { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
+.o_calendar_mini .fc-daygrid-day { background-color: transparent !important; }
+
+/* === Fix: Time Off / Leave calendar === */
+.o_leave_stats_header, .o_leave_stats_row { background-color: #313244 !important; color: #cdd6f4 !important; }
+.o_dashboard_common, .o_hr_attendance_kiosk_mode,
+.o_holidays_dashboard { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
+.o_timeoff_container, .o_calendar_container { background-color: #1e1e2e !important; }
+
+/* === Fix: Employee kanban === */
+.o_hr_employee_kanban .o_kanban_record { background-color: #313244 !important; }
+.oe_kanban_global_click { background-color: #313244 !important; color: #cdd6f4 !important; }
+
+/* === Fix: Project view === */
+.o_project_kanban .o_kanban_record { background-color: #313244 !important; }
+
+/* === Fix: Recruitment kanban === */
+.o_hr_recruitment_kanban .o_kanban_record { background-color: #313244 !important; }
+
+/* === Fix: eLearning === */
+.o_website_slides_kanban .o_kanban_record { background-color: #313244 !important; }
+
+/* === Fix: Empty content / no-content helpers === */
+.o_nocontent_help { color: #a6adc8 !important; }
+.o_nocontent_help .o_empty_folder { filter: invert(0.8) !important; }
+
+/* === Fix: Generic white backgrounds === */
+.o_content > div, .o_content > section,
+.o_action > div, .o_action > section {
+  background-color: inherit !important;
+}
+.bg-view, .bg-white, .bg-light { background-color: #1e1e2e !important; }
+.bg-100, .bg-200 { background-color: #181825 !important; }
+.text-dark { color: #cdd6f4 !important; }
+.border { border-color: #45475a !important; }
+
+/* === Fix: Dashboard kanban cards === */
+.o_dashboard .o_kanban_record { background-color: #313244 !important; }
+.o_kanban_view .o_kanban_record .o_kanban_card_header { background-color: #313244 !important; }
+.o_kanban_view .o_kanban_record .o_kanban_card_manage_section { background-color: #313244 !important; }
+
+/* === Fix: Popover & tooltips === */
+.popover { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+.popover-header { background-color: #45475a !important; color: #cdd6f4 !important; }
+.popover-body { color: #cdd6f4 !important; }
+.tooltip-inner { background-color: #313244 !important; color: #cdd6f4 !important; }
+
+/* === Fix: Spreadsheet & Dashboard backgrounds === */
+.o_spreadsheet_dashboard { background-color: #1e1e2e !important; }
+
+/* === Fix: Year calendar (Time Off) === */
+.o_year_calendar_container { background-color: #1e1e2e !important; }
+.o_year_calendar_container table { background-color: #1e1e2e !important; }
+.o_year_calendar_container td, .o_year_calendar_container th {
+  background-color: #1e1e2e !important;
+  color: #cdd6f4 !important;
+  border-color: #45475a !important;
+}
+.o_year_calendar_container .o_year_calendar_month_header { background-color: #313244 !important; }
+
+/* === Fix: Additional Bootstrap overrides === */
+.list-group-item { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+.offcanvas { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
+.toast { background-color: #313244 !important; color: #cdd6f4 !important; }
