@@ -1,14 +1,14 @@
-/* Odoo Dark Theme - Catppuccin Mocha inspired */
+/* Odoo Dark Theme - YouTube Dark Theme inspired */
 
 body, .o_web_client {
-  background-color: #1e1e2e !important;
-  color: #cdd6f4 !important;
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
 }
 
 .o_main_navbar {
-  background-color: #181825 !important;
-  color: #cdd6f4 !important;
-  border-bottom: 1px solid #313244 !important;
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
+  border-bottom: 1px solid #272727 !important;
 }
 
 .o_main_navbar .o_menu_brand,
@@ -16,238 +16,238 @@ body, .o_web_client {
 .o_main_navbar .o_menu_entry_lvl_1 > button,
 .o_main_navbar .dropdown-toggle,
 .o_main_navbar .o_nav_entry {
-  color: #cdd6f4 !important;
+  color: #f1f1f1 !important;
 }
 
 .o_main_navbar .dropdown-menu {
-  background-color: #313244 !important;
-  color: #cdd6f4 !important;
-  border-color: #45475a !important;
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
 }
 
 .o_main_navbar .dropdown-item {
-  color: #cdd6f4 !important;
+  color: #f1f1f1 !important;
 }
 
 .o_main_navbar .dropdown-item:hover,
 .o_main_navbar .dropdown-item:focus {
-  background-color: #45475a !important;
+  background-color: #3f3f3f !important;
 }
 
 .o_action_manager, .o_content {
-  background-color: #1e1e2e !important;
+  background-color: #0f0f0f !important;
 }
 
 .o_kanban_view, .o_list_view, .o_form_view, .o_graph_view, .o_pivot_view {
-  background-color: #1e1e2e !important;
-  color: #cdd6f4 !important;
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
 }
 
-.o_form_sheet_bg { background-color: #181825 !important; }
+.o_form_sheet_bg { background-color: #0f0f0f !important; }
 .o_form_sheet {
-  background-color: #313244 !important;
-  color: #cdd6f4 !important;
-  border-color: #45475a !important;
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
 }
 
 .o_kanban_record, .o_kanban_record:not(.o_kanban_ghost) {
-  background-color: #313244 !important;
-  color: #cdd6f4 !important;
-  border-color: #45475a !important;
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
 }
 
 .o_cp_searchview, .o_searchview {
-  background-color: #313244 !important;
-  color: #cdd6f4 !important;
-  border-color: #45475a !important;
+  background-color: #121212 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
 }
 
-.o_searchview_input { color: #cdd6f4 !important; }
-.o_searchview_facet { background-color: #45475a !important; color: #cdd6f4 !important; }
+.o_searchview_input { color: #f1f1f1 !important; }
+.o_searchview_facet { background-color: #3f3f3f !important; color: #f1f1f1 !important; }
 
 .o_control_panel, .o_control_panel_main {
-  background-color: #1e1e2e !important;
-  color: #cdd6f4 !important;
-  border-color: #45475a !important;
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
 }
 
 .table, .o_list_table {
-  color: #cdd6f4 !important;
-  --bs-table-bg: #1e1e2e !important;
-  --bs-table-striped-bg: #181825 !important;
-  --bs-table-hover-bg: #313244 !important;
+  color: #f1f1f1 !important;
+  --bs-table-bg: #0f0f0f !important;
+  --bs-table-striped-bg: #181818 !important;
+  --bs-table-hover-bg: #272727 !important;
 }
 
-.table thead th { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
-.table td, .table th { border-color: #45475a !important; }
-.table-striped > tbody > tr:nth-of-type(odd) > * { background-color: #181825 !important; }
+.table thead th { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
+.table td, .table th { border-color: #3f3f3f !important; }
+.table-striped > tbody > tr:nth-of-type(odd) > * { background-color: #181818 !important; }
 
 .o_field_widget input, .o_field_widget textarea, .o_field_widget select,
 input.o_input, textarea.o_input, select.o_input, .o_input {
-  background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important;
+  background-color: #121212 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important;
 }
 
-.o_field_widget input::placeholder { color: #6c7086 !important; }
+.o_field_widget input::placeholder { color: #717171 !important; }
 
-.modal-content { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
-.modal-header, .modal-footer { border-color: #45475a !important; }
+.modal-content { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
+.modal-header, .modal-footer { border-color: #3f3f3f !important; }
 
-a { color: #89b4fa !important; }
-a:hover { color: #b4d0fb !important; }
-.breadcrumb-item a { color: #89b4fa !important; }
+a { color: #3ea6ff !important; }
+a:hover { color: #7fc8ff !important; }
+.breadcrumb-item a { color: #3ea6ff !important; }
 .breadcrumb { background-color: transparent !important; }
 
-.btn-primary { background-color: #89b4fa !important; border-color: #89b4fa !important; color: #1e1e2e !important; }
-.btn-primary:hover { background-color: #74c7ec !important; border-color: #74c7ec !important; }
-.btn-secondary { background-color: #45475a !important; border-color: #585b70 !important; color: #cdd6f4 !important; }
+.btn-primary { background-color: #3ea6ff !important; border-color: #3ea6ff !important; color: #0f0f0f !important; }
+.btn-primary:hover { background-color: #65b8ff !important; border-color: #65b8ff !important; }
+.btn-secondary { background-color: #3f3f3f !important; border-color: #4f4f4f !important; color: #f1f1f1 !important; }
 
-.dropdown-menu { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
-.dropdown-item { color: #cdd6f4 !important; }
-.dropdown-item:hover, .dropdown-item:focus { background-color: #45475a !important; color: #cdd6f4 !important; }
+.dropdown-menu { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
+.dropdown-item { color: #f1f1f1 !important; }
+.dropdown-item:hover, .dropdown-item:focus { background-color: #3f3f3f !important; color: #f1f1f1 !important; }
 
-.card { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
+.card { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
 
-.o-mail-DiscussSidebar, .o-mail-Discuss-sidebar { background-color: #181825 !important; color: #cdd6f4 !important; }
-.o-mail-Thread { background-color: #1e1e2e !important; }
-.o-mail-Composer { background-color: #313244 !important; }
+.o-mail-DiscussSidebar, .o-mail-Discuss-sidebar { background-color: #0f0f0f !important; color: #f1f1f1 !important; }
+.o-mail-Thread { background-color: #0f0f0f !important; }
+.o-mail-Composer { background-color: #272727 !important; }
 
-.o_statusbar_status { background-color: #1e1e2e !important; }
-.o_base_settings { background-color: #1e1e2e !important; }
-.o_setting_box { background-color: #313244 !important; }
+.o_statusbar_status { background-color: #0f0f0f !important; }
+.o_base_settings { background-color: #0f0f0f !important; }
+.o_setting_box { background-color: #272727 !important; }
 
-h1, h2, h3, h4, h5, h6 { color: #cdd6f4 !important; }
-.text-muted { color: #a6adc8 !important; }
-label, .o_form_label { color: #a6adc8 !important; }
+h1, h2, h3, h4, h5, h6 { color: #f1f1f1 !important; }
+.text-muted { color: #aaaaaa !important; }
+label, .o_form_label { color: #aaaaaa !important; }
 
-.o_horizontal_separator { color: #cdd6f4 !important; border-color: #45475a !important; }
+.o_horizontal_separator { color: #f1f1f1 !important; border-color: #3f3f3f !important; }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #181825; }
-::-webkit-scrollbar-thumb { background: #45475a; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #585b70; }
+::-webkit-scrollbar-track { background: #0f0f0f; }
+::-webkit-scrollbar-thumb { background: #3f3f3f; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #4f4f4f; }
 
-.o_notification { background-color: #313244 !important; color: #cdd6f4 !important; }
-.badge { color: #cdd6f4 !important; }
-.o_stat_info .o_stat_value { color: #cdd6f4 !important; }
-.o_stat_info .o_stat_text { color: #a6adc8 !important; }
+.o_notification { background-color: #272727 !important; color: #f1f1f1 !important; }
+.badge { color: #f1f1f1 !important; }
+.o_stat_info .o_stat_value { color: #f1f1f1 !important; }
+.o_stat_info .o_stat_text { color: #aaaaaa !important; }
 
-.nav-tabs .nav-link { color: #cdd6f4 !important; }
-.nav-tabs .nav-link.active { background-color: #313244 !important; border-color: #45475a !important; color: #89b4fa !important; }
-.tab-content { background-color: #1e1e2e !important; }
+.nav-tabs .nav-link { color: #f1f1f1 !important; }
+.nav-tabs .nav-link.active { background-color: #272727 !important; border-color: #3f3f3f !important; color: #3ea6ff !important; }
+.tab-content { background-color: #0f0f0f !important; }
 
-.o_group .o_group_col { border-color: #45475a !important; }
-.o_notebook > .tab-content { background-color: #313244 !important; }
+.o_group .o_group_col { border-color: #3f3f3f !important; }
+.o_notebook > .tab-content { background-color: #272727 !important; }
 
 /* Pager */
-.o_pager .o_pager_value, .o_pager button { color: #cdd6f4 !important; }
+.o_pager .o_pager_value, .o_pager button { color: #f1f1f1 !important; }
 
 /* Chatter */
-.o-mail-Chatter { background-color: #1e1e2e !important; }
-.o-mail-Message { background-color: #313244 !important; border-color: #45475a !important; }
+.o-mail-Chatter { background-color: #0f0f0f !important; }
+.o-mail-Message { background-color: #272727 !important; border-color: #3f3f3f !important; }
 
-/* === Fix: Kanban group/column backgrounds === */
+/* === Kanban group/column backgrounds === */
 .o_kanban_group, .o_kanban_group_header,
 .o_column_quick_create, .o_kanban_header {
-  background-color: #1e1e2e !important;
-  color: #cdd6f4 !important;
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
 }
-.o_kanban_group .o_kanban_header_title { color: #cdd6f4 !important; }
-.o_kanban_renderer { background-color: #1e1e2e !important; }
-.o_kanban_view .o_column_title { color: #cdd6f4 !important; }
+.o_kanban_group .o_kanban_header_title { color: #f1f1f1 !important; }
+.o_kanban_renderer { background-color: #0f0f0f !important; }
+.o_kanban_view .o_column_title { color: #f1f1f1 !important; }
 .o_kanban_record .oe_kanban_global_click,
-.o_kanban_record .oe_kanban_card { background-color: #313244 !important; color: #cdd6f4 !important; }
+.o_kanban_record .oe_kanban_card { background-color: #272727 !important; color: #f1f1f1 !important; }
 .o_kanban_ghost { background-color: transparent !important; }
 
-/* === Fix: View controller & action backgrounds === */
+/* === View controller & action backgrounds === */
 .o_view_controller, .o_action,
 .o_view_controller .o_content,
 .o_action_manager > .o_action {
-  background-color: #1e1e2e !important;
-  color: #cdd6f4 !important;
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
 }
 
-/* === Fix: Calendar view (FullCalendar) === */
-.o_calendar_view { background-color: #1e1e2e !important; }
-.o_calendar_renderer { background-color: #1e1e2e !important; }
-.fc { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
+/* === Calendar view (FullCalendar) === */
+.o_calendar_view { background-color: #0f0f0f !important; }
+.o_calendar_renderer { background-color: #0f0f0f !important; }
+.fc { background-color: #0f0f0f !important; color: #f1f1f1 !important; }
 .fc-theme-standard td, .fc-theme-standard th,
-.fc-theme-standard .fc-scrollgrid { border-color: #45475a !important; }
+.fc-theme-standard .fc-scrollgrid { border-color: #3f3f3f !important; }
 .fc .fc-daygrid-body, .fc .fc-timegrid-body,
 .fc .fc-daygrid-day, .fc .fc-timegrid-slot,
 .fc-timegrid-slot, .fc-daygrid-day-frame {
-  background-color: #1e1e2e !important;
+  background-color: #0f0f0f !important;
 }
-.fc .fc-col-header-cell { background-color: #313244 !important; color: #cdd6f4 !important; }
-.fc .fc-day-today { background-color: #313244 !important; }
-.fc .fc-daygrid-day-number, .fc .fc-col-header-cell-cushion { color: #cdd6f4 !important; }
-.fc .fc-timegrid-slot-label { color: #a6adc8 !important; }
-.fc .fc-button { background-color: #45475a !important; border-color: #585b70 !important; color: #cdd6f4 !important; }
-.fc .fc-button-active, .fc .fc-button:hover { background-color: #585b70 !important; }
-.fc-popover { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
-.fc-popover .fc-popover-header { background-color: #45475a !important; color: #cdd6f4 !important; }
-.fc .fc-non-business { background-color: #181825 !important; }
-.fc .fc-bg-event { background-color: #45475a !important; }
-.o_calendar_sidebar { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
+.fc .fc-col-header-cell { background-color: #272727 !important; color: #f1f1f1 !important; }
+.fc .fc-day-today { background-color: #1a1a2e !important; }
+.fc .fc-daygrid-day-number, .fc .fc-col-header-cell-cushion { color: #f1f1f1 !important; }
+.fc .fc-timegrid-slot-label { color: #aaaaaa !important; }
+.fc .fc-button { background-color: #3f3f3f !important; border-color: #4f4f4f !important; color: #f1f1f1 !important; }
+.fc .fc-button-active, .fc .fc-button:hover { background-color: #4f4f4f !important; }
+.fc-popover { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
+.fc-popover .fc-popover-header { background-color: #3f3f3f !important; color: #f1f1f1 !important; }
+.fc .fc-non-business { background-color: #181818 !important; }
+.fc .fc-bg-event { background-color: #3f3f3f !important; }
+.o_calendar_sidebar { background-color: #0f0f0f !important; color: #f1f1f1 !important; }
 .o_calendar_mini .fc-daygrid-day { background-color: transparent !important; }
 
-/* === Fix: Time Off / Leave calendar === */
-.o_leave_stats_header, .o_leave_stats_row { background-color: #313244 !important; color: #cdd6f4 !important; }
+/* === Time Off / Leave calendar === */
+.o_leave_stats_header, .o_leave_stats_row { background-color: #272727 !important; color: #f1f1f1 !important; }
 .o_dashboard_common, .o_hr_attendance_kiosk_mode,
-.o_holidays_dashboard { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
-.o_timeoff_container, .o_calendar_container { background-color: #1e1e2e !important; }
+.o_holidays_dashboard { background-color: #0f0f0f !important; color: #f1f1f1 !important; }
+.o_timeoff_container, .o_calendar_container { background-color: #0f0f0f !important; }
 
-/* === Fix: Employee kanban === */
-.o_hr_employee_kanban .o_kanban_record { background-color: #313244 !important; }
-.oe_kanban_global_click { background-color: #313244 !important; color: #cdd6f4 !important; }
+/* === Employee kanban === */
+.o_hr_employee_kanban .o_kanban_record { background-color: #272727 !important; }
+.oe_kanban_global_click { background-color: #272727 !important; color: #f1f1f1 !important; }
 
-/* === Fix: Project view === */
-.o_project_kanban .o_kanban_record { background-color: #313244 !important; }
+/* === Project view === */
+.o_project_kanban .o_kanban_record { background-color: #272727 !important; }
 
-/* === Fix: Recruitment kanban === */
-.o_hr_recruitment_kanban .o_kanban_record { background-color: #313244 !important; }
+/* === Recruitment kanban === */
+.o_hr_recruitment_kanban .o_kanban_record { background-color: #272727 !important; }
 
-/* === Fix: eLearning === */
-.o_website_slides_kanban .o_kanban_record { background-color: #313244 !important; }
+/* === eLearning === */
+.o_website_slides_kanban .o_kanban_record { background-color: #272727 !important; }
 
-/* === Fix: Empty content / no-content helpers === */
-.o_nocontent_help { color: #a6adc8 !important; }
-.o_nocontent_help .o_empty_folder { filter: invert(0.8) !important; }
+/* === Empty content / no-content helpers === */
+.o_nocontent_help { color: #aaaaaa !important; }
+.o_nocontent_help .o_empty_folder { filter: invert(0.85) !important; }
 
-/* === Fix: Generic white backgrounds === */
+/* === Generic white backgrounds === */
 .o_content > div, .o_content > section,
 .o_action > div, .o_action > section {
   background-color: inherit !important;
 }
-.bg-view, .bg-white, .bg-light { background-color: #1e1e2e !important; }
-.bg-100, .bg-200 { background-color: #181825 !important; }
-.text-dark { color: #cdd6f4 !important; }
-.border { border-color: #45475a !important; }
+.bg-view, .bg-white, .bg-light { background-color: #0f0f0f !important; }
+.bg-100, .bg-200 { background-color: #181818 !important; }
+.text-dark { color: #f1f1f1 !important; }
+.border { border-color: #3f3f3f !important; }
 
-/* === Fix: Dashboard kanban cards === */
-.o_dashboard .o_kanban_record { background-color: #313244 !important; }
-.o_kanban_view .o_kanban_record .o_kanban_card_header { background-color: #313244 !important; }
-.o_kanban_view .o_kanban_record .o_kanban_card_manage_section { background-color: #313244 !important; }
+/* === Dashboard kanban cards === */
+.o_dashboard .o_kanban_record { background-color: #272727 !important; }
+.o_kanban_view .o_kanban_record .o_kanban_card_header { background-color: #272727 !important; }
+.o_kanban_view .o_kanban_record .o_kanban_card_manage_section { background-color: #272727 !important; }
 
-/* === Fix: Popover & tooltips === */
-.popover { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
-.popover-header { background-color: #45475a !important; color: #cdd6f4 !important; }
-.popover-body { color: #cdd6f4 !important; }
-.tooltip-inner { background-color: #313244 !important; color: #cdd6f4 !important; }
+/* === Popover & tooltips === */
+.popover { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
+.popover-header { background-color: #3f3f3f !important; color: #f1f1f1 !important; }
+.popover-body { color: #f1f1f1 !important; }
+.tooltip-inner { background-color: #272727 !important; color: #f1f1f1 !important; }
 
-/* === Fix: Spreadsheet & Dashboard backgrounds === */
-.o_spreadsheet_dashboard { background-color: #1e1e2e !important; }
+/* === Spreadsheet & Dashboard === */
+.o_spreadsheet_dashboard { background-color: #0f0f0f !important; }
 
-/* === Fix: Year calendar (Time Off) === */
-.o_year_calendar_container { background-color: #1e1e2e !important; }
-.o_year_calendar_container table { background-color: #1e1e2e !important; }
+/* === Year calendar (Time Off) === */
+.o_year_calendar_container { background-color: #0f0f0f !important; }
+.o_year_calendar_container table { background-color: #0f0f0f !important; }
 .o_year_calendar_container td, .o_year_calendar_container th {
-  background-color: #1e1e2e !important;
-  color: #cdd6f4 !important;
-  border-color: #45475a !important;
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
 }
-.o_year_calendar_container .o_year_calendar_month_header { background-color: #313244 !important; }
+.o_year_calendar_container .o_year_calendar_month_header { background-color: #272727 !important; }
 
-/* === Fix: Additional Bootstrap overrides === */
-.list-group-item { background-color: #313244 !important; color: #cdd6f4 !important; border-color: #45475a !important; }
-.offcanvas { background-color: #1e1e2e !important; color: #cdd6f4 !important; }
-.toast { background-color: #313244 !important; color: #cdd6f4 !important; }
+/* === Additional Bootstrap overrides === */
+.list-group-item { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
+.offcanvas { background-color: #0f0f0f !important; color: #f1f1f1 !important; }
+.toast { background-color: #272727 !important; color: #f1f1f1 !important; }
