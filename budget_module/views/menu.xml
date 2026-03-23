@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <menuitem id="menu_budget"
-              name="&#x4E88;&#x7B97;&#x7BA1;&#x7406;"
-              parent="account.account_reports_management_menu"
-              action="action_budget_budget"
-              sequence="10"/>
-</odoo>

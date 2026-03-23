@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <menuitem id="menu_subscription_root"
-              name="&#x30B5;&#x30D6;&#x30B9;&#x30AF;&#x30EA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;"
-              parent="sale.sale_menu_root"
-              action="action_sale_subscription"
-              sequence="5"/>
-</odoo>
