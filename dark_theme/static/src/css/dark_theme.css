@@ -569,3 +569,81 @@ div.settings {
 .o_data_row.table-info:hover td {
   background-color: #223344 !important;
 }
+
+/* === Messaging Menu (chat notification dropdown) white fix === */
+.o-mail-MessagingMenu {
+  background-color: #272727 !important;
+  color: #d0d0d0 !important;
+}
+.o-mail-MessagingMenu-list,
+.o-mail-MessagingMenu-list.list-group,
+.o-mail-MessagingMenu-list.list-group-flush {
+  background-color: #272727 !important;
+  color: #d0d0d0 !important;
+}
+/* Unread notification item (o-important) */
+.o-mail-NotificationItem.o-important {
+  background-color: #1a2a3a !important;
+  color: #d0d0d0 !important;
+}
+/* Notification item hover */
+.o-mail-NotificationItem:hover {
+  background-color: #3f3f3f !important;
+  color: #d0d0d0 !important;
+}
+.o-mail-NotificationItem:hover * {
+  color: #d0d0d0 !important;
+}
+/* Active tab in messaging menu */
+.o-mail-MessagingMenu-headerFilter.o-active {
+  background-color: #3f3f3f !important;
+  color: #3ea6ff !important;
+}
+.o-mail-MessagingMenu-headerFilter:hover {
+  background-color: #3f3f3f !important;
+  color: #d0d0d0 !important;
+}
+/* New message button */
+.o-mail-MessagingMenu .btn-link {
+  color: #3ea6ff !important;
+}
+
+/* === Product form price fields (保護色対策) === */
+.o_field_widget[name="list_price"] span,
+.o_field_widget[name="standard_price"] span,
+.o_field_widget[name="list_price"] input,
+.o_field_widget[name="standard_price"] input,
+.o_field_widget.o_field_monetary span,
+.o_field_widget.o_field_float span {
+  color: #d0d0d0 !important;
+}
+/* Tags (税率タグ等) dark text fix */
+.o_tag,
+.o_tag.badge,
+.o_tag.o_badge,
+span.o_tag[class*="o_tag_color_"],
+.o_tag.o_tag_color_0,
+.o_tag.o_tag_color_1,
+.o_tag.o_tag_color_2,
+.o_tag.o_tag_color_3,
+.o_tag.o_tag_color_4,
+.o_tag.o_tag_color_5,
+.o_tag.o_tag_color_6,
+.o_tag.o_tag_color_7,
+.o_tag.o_tag_color_8,
+.o_tag.o_tag_color_9,
+.o_tag.o_tag_color_10,
+.o_tag.o_tag_color_11 {
+  color: #d0d0d0 !important;
+  background-color: #3f3f3f !important;
+  border-color: #4f4f4f !important;
+}
+.o_tag .o_tag_badge_text {
+  color: #d0d0d0 !important;
+}
+.o_tag a, .o_tag .o_delete {
+  color: #888888 !important;
+}
+.o_tag:hover {
+  background-color: #4f4f4f !important;
+}
