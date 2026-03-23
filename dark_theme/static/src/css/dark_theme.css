@@ -1,5 +1,11 @@
 /* Odoo Dark Theme - YouTube Dark Theme inspired */
 
+:root {
+  --primary: #3ea6ff !important;
+  --primary-rgb: 62, 166, 255 !important;
+  --o-community-color: #3ea6ff !important;
+}
+
 body, .o_web_client {
   background-color: #0f0f0f !important;
   color: #f1f1f1 !important;
@@ -17,6 +23,37 @@ body, .o_web_client {
 .o_main_navbar .dropdown-toggle,
 .o_main_navbar .o_nav_entry {
   color: #f1f1f1 !important;
+}
+
+/* Override Odoo Community purple (#71639e) in navbar */
+.o_main_navbar .o_menu_sections > *,
+.o_main_navbar .o_menu_sections .o_nav_entry,
+.o_main_navbar .o_menu_sections .dropdown-toggle,
+.o_main_navbar .o_menu_sections .o-dropdown,
+.o_main_navbar .o_menu_sections .o-dropdown-item {
+  background-color: transparent !important;
+  color: #f1f1f1 !important;
+}
+.o_main_navbar .o_menu_sections > *:hover,
+.o_main_navbar .o_menu_sections .o_nav_entry:hover,
+.o_main_navbar .o_menu_sections .dropdown-toggle:hover {
+  background-color: #272727 !important;
+}
+.o_main_navbar .o_menu_sections > .show > .dropdown-toggle,
+.o_main_navbar .o_menu_sections .o_nav_entry.active {
+  background-color: #272727 !important;
+}
+
+/* Home menu app icons - remove purple tint */
+.o_home_menu .o_app .o_app_icon,
+.o_home_menu .o_app {
+  background-color: transparent !important;
+}
+.o_navbar_apps_menu .dropdown-item {
+  background-color: transparent !important;
+}
+.o_navbar_apps_menu .dropdown-item:hover {
+  background-color: #272727 !important;
 }
 
 .o_main_navbar .dropdown-menu {
