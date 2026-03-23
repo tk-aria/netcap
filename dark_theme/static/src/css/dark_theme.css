@@ -541,3 +541,31 @@ div.settings {
 .bg-body, .bg-body-tertiary, .bg-body-secondary {
   background-color: #0f0f0f !important;
 }
+
+/* === Bootstrap text color overrides (保護色対策) === */
+.text-900, .text-800, .text-700 { color: #d0d0d0 !important; }
+.h1, .h2, .h3, .h4, .h5, .h6 { color: #dedede !important; }
+.oe_title, .oe_title * { color: #d0d0d0 !important; }
+.oe_title .o_field_widget input,
+.oe_title .o_field_widget span,
+.oe_title h1, .oe_title h2 { color: #dedede !important; }
+.o_kanban_record .h5,
+.o_kanban_record .h4,
+.o_kanban_record .h3,
+.o_kanban_record .fw-bold,
+.o_kanban_record .d-flex.mb-0 { color: #d0d0d0 !important; }
+
+/* === List view selected row (table-info) white fix === */
+.o_data_row.table-info td,
+.o_data_row.o_data_row_selected td,
+.o_data_row.table-info .o_data_cell,
+.o_data_row.table-info .o_list_record_selector,
+.table-info {
+  background-color: #1a2a3a !important;
+  color: #d0d0d0 !important;
+  --bs-table-bg: #1a2a3a !important;
+  --bs-table-accent-bg: #1a2a3a !important;
+}
+.o_data_row.table-info:hover td {
+  background-color: #223344 !important;
+}
