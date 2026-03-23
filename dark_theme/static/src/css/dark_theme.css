@@ -247,7 +247,110 @@ label, .o_form_label { color: #aaaaaa !important; }
 }
 .o_year_calendar_container .o_year_calendar_month_header { background-color: #272727 !important; }
 
+/* === List view table cells (critical fix) === */
+.o_list_view .o_data_row td,
+.o_list_view .o_data_cell,
+.o_list_view .o_list_record_selector,
+.o_list_view tbody tr td,
+.o_list_table tbody td {
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
+}
+.o_list_view .o_data_row:hover td,
+.o_list_table tbody tr:hover td {
+  background-color: #272727 !important;
+}
+.o_list_view thead, .o_list_view thead th,
+.o_list_table thead, .o_list_table thead th {
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
+}
+.o_list_view tfoot, .o_list_view tfoot td,
+.o_list_table tfoot, .o_list_table tfoot td {
+  background-color: #181818 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
+}
+
+/* === Embedded list in form view (invoice lines etc.) === */
+.o_field_one2many .o_list_table td,
+.o_field_one2many .o_data_cell,
+.o_field_many2many .o_list_table td,
+.o_field_many2many .o_data_cell {
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+}
+.o_field_one2many .o_list_table thead th,
+.o_field_many2many .o_list_table thead th {
+  background-color: #3f3f3f !important;
+  color: #f1f1f1 !important;
+}
+.o_field_one2many .o_list_table tfoot td,
+.o_field_many2many .o_list_table tfoot td {
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+}
+
+/* === Nav tabs white fix === */
+.nav-tabs, .nav.nav-tabs {
+  background-color: #272727 !important;
+  border-color: #3f3f3f !important;
+}
+.nav-tabs .nav-link:not(.active) {
+  background-color: transparent !important;
+  color: #aaaaaa !important;
+}
+
+/* === Chatter top bar === */
+.o-mail-Chatter-top, .o-mail-Chatter-topbar {
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
+}
+
+/* === Kanban add column button === */
+.o_kanban_add_column, .o_kanban_add_column.btn-light {
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
+}
+.o_kanban_add_column:hover {
+  background-color: #3f3f3f !important;
+}
+
+/* === Bootstrap bg-300 and btn-light overrides === */
+.bg-300, .progress.bg-300 { background-color: #3f3f3f !important; }
+.btn-light { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
+.btn-light:hover { background-color: #3f3f3f !important; color: #f1f1f1 !important; }
+.text-bg-300, .badge.text-bg-300 { background-color: #3f3f3f !important; color: #f1f1f1 !important; }
+.text-bg-light { background-color: #272727 !important; color: #f1f1f1 !important; }
+
+/* === Column progress bars in kanban === */
+.o_column_progress.progress { background-color: #3f3f3f !important; }
+.o_kanban_counter_progress .progress { background-color: #3f3f3f !important; }
+
 /* === Additional Bootstrap overrides === */
 .list-group-item { background-color: #272727 !important; color: #f1f1f1 !important; border-color: #3f3f3f !important; }
 .offcanvas { background-color: #0f0f0f !important; color: #f1f1f1 !important; }
 .toast { background-color: #272727 !important; color: #f1f1f1 !important; }
+
+/* === Select2/Many2one dropdown === */
+.o_field_many2one_selection .o_input_dropdown,
+.o_field_widget .o_input_dropdown {
+  background-color: #121212 !important;
+}
+
+/* === Form view status bar === */
+.o_form_statusbar { background-color: #0f0f0f !important; border-color: #3f3f3f !important; }
+.o_statusbar_buttons { background-color: #0f0f0f !important; }
+
+/* === Misc remaining white elements === */
+.o_cp_buttons { background-color: transparent !important; }
+.o_list_selection_box { background-color: #272727 !important; color: #f1f1f1 !important; }
+.o_pivot_table td { background-color: #0f0f0f !important; color: #f1f1f1 !important; }
+.o_pivot_table th { background-color: #272727 !important; color: #f1f1f1 !important; }
+.alert:not(.alert-danger):not(.alert-warning):not(.alert-success):not(.alert-info) {
+  background-color: #272727 !important;
+  color: #f1f1f1 !important;
+  border-color: #3f3f3f !important;
+}
