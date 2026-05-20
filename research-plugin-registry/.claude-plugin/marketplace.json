@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "research-plugin-registry",
+  "description": "Research and discovery plugins for Claude Code - restaurant search, developer recruitment research (Wantedly, X/Twitter, high-salary 900万+), and multi-source web research tools",
+  "owner": {
+    "name": "granizm"
+  },
+  "plugins": [
+    {
+      "name": "research-tools",
+      "description": "Multi-source web research tools - restaurant discovery, Wantedly developer recruitment, X/Twitter developer recruitment, high-salary (900万+) job search across Green/doda/BizReach, and cross-site fact-checking",
+      "source": "./plugins/research-tools",
+      "enabled": true
+    }
+  ]
+}

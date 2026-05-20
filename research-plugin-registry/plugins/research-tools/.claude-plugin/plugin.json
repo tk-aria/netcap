@@ -1,0 +1,10 @@
+{
+  "name": "research-tools",
+  "version": "1.3.0",
+  "description": "Multi-source web research tools. Restaurant discovery, Wantedly/X(Twitter) developer recruitment research, and high-salary (900万+) developer/PM job search across multiple Japanese recruitment platforms.",
+  "author": {
+    "name": "granizm"
+  },
+  "keywords": ["restaurant", "research", "search", "izakaya", "venue", "group-dining", "fact-check", "wantedly", "x-twitter", "developer", "recruitment", "engineer", "hiring", "job-posting", "highclass", "salary", "bizreach", "green", "doda", "pm", "em", "cto"],
+  "license": "MIT"
+}
