@@ -22,7 +22,7 @@ Custom plugin marketplace for Claude Code - multi-source web research, venue dis
 
 | Plugin | Version | Description |
 |--------|---------|-------------|
-| research-tools | 1.1.0 | Multi-source web research - restaurant discovery, budget comparison, venue recommendations, X(Twitter) developer recruitment research |
+| research-tools | 1.3.0 | Multi-source web research - restaurant discovery, Wantedly/X(Twitter) developer recruitment, high-salary job search, cross-site fact-checking |
 
 ---
 
@@ -69,6 +69,7 @@ Multi-source web research plugin with modular skill architecture:
 | Skill | Trigger | Description |
 |-------|---------|-------------|
 | `restaurant-finder` | "居酒屋探して", "レストラン検索", "宴会場所" | 複数グルメサイト横断検索・ファクトチェック・予算順比較表・用途別おすすめ出力 |
+| `wantedly-dev-research` | "Wantedlyの求人調べて", "Wantedly開発者採用リサーチ" | Wantedly求人を5クエリ横断検索・7社詳細レポート・AI活用/技術トレンド分析付き |
 | `x-dev-research` | "Xのエンジニア採用調べて", "Twitter開発者採用リサーチ" | X(Twitter)上のエンジニア採用ポストを検索・年収データ付き構造化レポート出力 |
 
 ---

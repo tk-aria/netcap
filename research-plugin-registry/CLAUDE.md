@@ -61,8 +61,9 @@ changes, update or supersede the doc rather than leaving stale content.
 
 - **research-tools** (`plugins/research-tools/`) — Multi-source web research
   plugin with skills for restaurant discovery, venue comparison,
-  cross-site fact-checking, and X(Twitter) developer recruitment research
-  (skills: restaurant-finder, x-dev-research)
+  cross-site fact-checking, Wantedly developer recruitment research,
+  X(Twitter) developer recruitment research, and high-salary job search
+  (skills: restaurant-finder, wantedly-dev-research, x-dev-research, highclass-dev-recruitment)
 
 ## Plugin Version Management
 
