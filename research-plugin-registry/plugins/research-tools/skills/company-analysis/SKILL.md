@@ -1,21 +1,21 @@
 ---
-name: company-research
+name: company-analysis
 description: >
-  企業の包括的リサーチを実行し、12次元の構造化レポートを出力するスキル。
+  企業の包括的分析を実行し、12次元の構造化レポートを出力するスキル。
   3並列エージェントでWebSearch/WebFetchを駆使し、企業概要・MVV・事業内容・市場環境・
   財務状況・経営陣・3C分析・強み/差別化・最新ニュース・採用動向・リスク・SWOT分析を網羅する。
   以下のようなリクエストで必ずこのスキルを使用すること:
-  - 「〇〇社について調べて」「企業リサーチ」「会社分析」「企業分析」
+  - 「〇〇社について調べて」「企業分析」「会社分析」「企業リサーチ」
   - 「SWOT分析して」「3C分析して」「競合分析して」
-  - 「company research」「corporate analysis」
+  - 「company analysis」「corporate analysis」
   - 「〇〇社の強みは？」「〇〇社の財務状況」「〇〇社の採用状況」
-  ALWAYS invoke for any request about comprehensive company research, corporate analysis,
+  ALWAYS invoke for any request about comprehensive company analysis, corporate analysis,
   SWOT analysis, 3C analysis, or multi-dimensional company evaluation.
   SKIP: 単純な会社名の質問（「〇〇社の住所は？」等）、株価のみの問い合わせ、求人検索。
 user_invocable: true
 arguments:
   - name: company
-    description: "調査対象の企業名（例: 株式会社SmartHR, freee株式会社, メルカリ）"
+    description: "分析対象の企業名（例: 株式会社SmartHR, freee株式会社, メルカリ）"
     required: true
   - name: focus
     description: "特定の分析軸にフォーカス（例: 財務, 採用, 技術, 競合）。指定なしで全12次元"
@@ -25,9 +25,9 @@ arguments:
     required: false
 ---
 
-# 企業包括リサーチスキル
+# 企業包括分析スキル
 
-対象企業について12の分析次元から包括的にリサーチし、構造化レポートを出力する。
+対象企業について12の分析次元から包括的に分析し、構造化レポートを出力する。
 3つの並列エージェントで効率的に情報収集し、統合・品質チェック後にレポートを生成する。
 
 ## 実行ワークフロー
@@ -111,7 +111,7 @@ arguments:
 以下の12セクションで構成されるフルレポートを出力する:
 
 ```
-## {company} 包括リサーチレポート
+## {company} 包括分析レポート
 
 ### 1. 企業概要
 - 正式社名 / 設立年 / 本社所在地 / 従業員数 / 資本金 / 上場区分
@@ -172,7 +172,7 @@ arguments:
 | 外部環境 | **機会(O)**: ... | **脅威(T)**: ... |
 
 ---
-**リサーチ日時**: YYYY年MM月DD日
+**分析日時**: YYYY年MM月DD日
 **情報ソース**: [主要な出典をリスト]
 ```
 
@@ -215,7 +215,7 @@ focusが指定されても12次元すべてを出力する（該当次元の深�
 - [ ] リスク要因が具体的で企業固有のものである（一般論はNG）
 - [ ] 架空のデータが一切含まれていない
 - [ ] 「情報なし」の項目が明示されている（空欄や省略ではなく）
-- [ ] リサーチ日時が記載されている
+- [ ] 分析日時が記載されている
 - [ ] すべて日本語で記載されている
 - [ ] output_formatに応じた適切な書式になっている
 

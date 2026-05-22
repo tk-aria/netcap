@@ -63,8 +63,8 @@ changes, update or supersede the doc rather than leaving stale content.
   plugin with skills for restaurant discovery, venue comparison,
   cross-site fact-checking, Wantedly developer recruitment research,
   X(Twitter) developer recruitment research, high-salary job search,
-  and comprehensive 12-dimension company research
-  (skills: restaurant-finder, wantedly-dev-research, x-dev-research, highclass-dev-recruitment, company-research)
+  and comprehensive 12-dimension company analysis
+  (skills: restaurant-finder, wantedly-dev-research, x-dev-research, highclass-dev-recruitment, company-analysis)
 
 ## Plugin Version Management
 
